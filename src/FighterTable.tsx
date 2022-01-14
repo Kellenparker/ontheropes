@@ -115,8 +115,7 @@ class FighterTable extends React.Component {
 
 	render() {
 		const options = {
-			height: 250,
-			movableRows: true
+			height: 450
 		};
 		return (
 			<div>

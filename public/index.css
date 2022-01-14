@@ -1,0 +1,10 @@
+#head-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#site-content {
+    margin-top: 135px;
+}

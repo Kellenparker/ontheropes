@@ -1,13 +1,18 @@
 import React from 'react';
 import './App.css';
-import Header from './Header';
 import FighterTable from './FighterTable';
 
 function App() {
 	return (
 		<div className="App">
-			<Header/>
-			<FighterTable/>
+			<div className="col">
+
+			</div>
+			<div className="col">
+				<div className="table">
+					<FighterTable/>
+				</div>
+			</div>
 		</div>
 	);
 }

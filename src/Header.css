@@ -1,16 +1,21 @@
 .header {
     position: fixed;
+    height: 97.5px;
     background: white;
     border-bottom: 1px solid #757575;
     width: 100%;
-    filter: drop-shadow(0px 0px 4px #646464);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0px 0px 4px #a1a1a1);
     top: 0;
 }
 
 .title {
     font-size: 40px;
     font-style: italic;
-    margin-top: .5vh;
+    margin-top: 3.4vh;
     margin-bottom: .5vh;
     left: 80px;
 }
@@ -30,9 +35,9 @@
 }
 
 .headButton:hover {
-    background-color: #f5f5f5;
+    background-color: #dfdfdf;
 }
 
 .headButton:active {
-    background-color: #e7e7e7;
+    background-color: #b4b4b4;
 }
