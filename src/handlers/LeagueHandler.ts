@@ -1,16 +1,29 @@
-import { isConstructorDeclaration } from "typescript";
+
+interface Time {
+    tick: number;
+    year: number;
+    week: number
+};
 
 class League {
-    interface time {
-        tick: number
-        startYear: number
-        endYear: number
+
+    time: Time;
+
+    constructor(start: number) {
+
+        this.time = {
+            tick: 0,
+            year: start,
+            week: 0
+        };
+        
     }
 
-    constructor() {
-
-
-        
+    advance(amt: number) {
+        for(let i = 0; i < amt; i++){
+            this.time.tick++;
+            this.time.week++;
+        }
     }
 }
 
