@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Header from './Header';
 import App from './App';
+import League from './handlers/LeagueHandler';
 import reportWebVitals from './reportWebVitals';
+
+const league = new League(2022);
 
 ReactDOM.render(
 	<React.StrictMode>
@@ -14,7 +17,7 @@ ReactDOM.render(
 
 ReactDOM.render(
 	<React.StrictMode>
-		<App />
+		<App advance={league.advance} day={league.getDateStr} />
 	</React.StrictMode>,
 	document.getElementById('site-content')
 );

@@ -115,7 +115,10 @@ class FighterTable extends React.Component {
 
 	render() {
 		const options = {
-			height: 450
+			height: 450,
+			innerWidth: 200,
+			debugInvalidOptions: false
+			
 		};
 		return (
 			<div>
