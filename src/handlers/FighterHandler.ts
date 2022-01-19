@@ -1,4 +1,6 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
+
+var human_names = require("human-names");
 
 export interface Fighter {
     name: string;
@@ -18,9 +20,9 @@ class FighterHandler {
             this.roster[i] = [];
             for (let j = 0; j < wcSize; j++) {
                 this.roster[i][j] = {
-                    name: "test ing",
+                    name: human_names.maleRandom() + " " + human_names.allRandom(),
                     age: _.random(18, 44, false),
-                    overall: _.random(0, 100, false)
+                    overall: _.random(0, 100, false),
                 };
             }
         }

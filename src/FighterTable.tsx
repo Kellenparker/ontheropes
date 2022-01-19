@@ -42,6 +42,7 @@ class FighterTable extends React.Component<myProps, myState> {
         { title: "Overall", field: "overall", sorter: "number" },
         { title: "Date Of Birth", field: "dob" },
     ];
+	
     rowClick = (
         e: any,
         row: { getData: () => { (): any; new (): any; name: any } }
