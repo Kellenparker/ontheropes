@@ -1,6 +1,6 @@
 .App {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     grid-gap: 20px;
     padding-left: 200px;
     padding-right: 200px;
@@ -21,6 +21,10 @@
     padding: 3px;
     border: 2px solid rgb(145, 145, 145);
     border-radius: 8px;
+}
+
+.table {
+    height: 450px;
 }
 
 #dayStr {

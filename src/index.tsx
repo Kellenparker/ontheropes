@@ -17,7 +17,7 @@ ReactDOM.render(
 
 ReactDOM.render(
 	<React.StrictMode>
-		<App advance={league.advance} day={league.getDateStr} />
+		<App league={league} />
 	</React.StrictMode>,
 	document.getElementById('site-content')
 );

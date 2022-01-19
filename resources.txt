@@ -1,0 +1,1 @@
+{title:"Link", field:"url_label", formatter:"link", formatterParams:{url:function(cell){return "http://" + cell.getData().url}}},

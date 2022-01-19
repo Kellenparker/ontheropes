@@ -9,6 +9,7 @@ interface Time {
 
 class League {
     time: Time;
+    roster: FighterHandler;
 
     constructor(start: number) {
         this.time = {
@@ -17,8 +18,8 @@ class League {
             week: 1,
         };
 
-        const roster = new FighterHandler();
-        console.log(roster.getRoster());
+        this.roster = new FighterHandler();
+        console.log(this.roster.getRoster());
     }
 
     advance = (amt: number) => {
@@ -35,6 +36,8 @@ class League {
 
     getDateStr = () =>
         "Week " + this.time.week.toString() + ", " + this.time.year.toString();
+
+    getWeightClass = (index: number) => this.roster.getWeightClass(index);
 }
 
 export default League;

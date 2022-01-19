@@ -1,6 +1,7 @@
-interface Fighter {
-    fname: string;
-    lname: string;
+import * as _ from 'lodash';
+
+export interface Fighter {
+    name: string;
     age: number;
     overall: number;
 }
@@ -17,16 +18,17 @@ class FighterHandler {
             this.roster[i] = [];
             for (let j = 0; j < wcSize; j++) {
                 this.roster[i][j] = {
-                    fname: "test",
-                    lname: "ing",
-                    age: 20,
-                    overall: 50,
+                    name: "test ing",
+                    age: _.random(18, 44, false),
+                    overall: _.random(0, 100, false)
                 };
             }
         }
     }
 
     getRoster = () => this.roster;
+
+    getWeightClass = (index: number) => this.roster[index];
 }
 
 export default FighterHandler;

@@ -1,5 +1,7 @@
 import * as React from "react";
 import "react-tabulator";
+import "./FighterTable.css";
+import { Fighter } from "./handlers/FighterHandler";
 
 import "react-tabulator/lib/styles.css"; // default theme
 import "react-tabulator/css/bootstrap/tabulator_bootstrap.min.css"; // use Theme(s)
@@ -12,98 +14,34 @@ function SimpleButton(props: any | null) {
     return <button onClick={() => alert(rowData.name)}>{cellValue}</button>;
 }
 
-const data = [
-    {
-        id: 1,
-        name: "Oli Bob",
-        age: "12",
-        color: "red",
-        dob: "01/01/1980",
-        rating: 5,
-        passed: true,
-        pets: ["cat", "dog"],
-    },
-    {
-        id: 2,
-        name: "Mary May",
-        age: "1",
-        color: "green",
-        dob: "12/05/1989",
-        rating: 4,
-        passed: true,
-        pets: ["cat"],
-    },
-    {
-        id: 5,
-        name: "Margret Marmajuke",
-        age: "16",
-        color: "yellow",
-        dob: "07/01/1999",
-        rating: 4,
-        passed: false,
-    },
-    {
-        id: 6,
-        name: "Van Ng",
-        age: "37",
-        color: "green",
-        dob: "06/10/1982",
-        rating: 4,
-        passed: true,
-        pets: ["dog", "fish"],
-    },
-    {
-        id: 7,
-        name: "Duc Ng",
-        age: "37",
-        color: "yellow",
-        dob: "10/10/1982",
-        rating: 4,
-        passed: true,
-        pets: ["dog"],
-    },
-];
+var data: any[] = []
 
-class FighterTable extends React.Component {
-    state = {
-        data: [],
-        selectedName: "",
-    };
+type myProps = {
+	getFighters: Fighter[]
+}
+type myState = {
+	selectedName: string
+}
+
+class FighterTable extends React.Component<myProps, myState> {
+    
+	constructor(props: myProps | Readonly<myProps>){
+		super(props);
+		this.state = {
+			selectedName: ""
+		}
+		data.push(this.props.getFighters);
+		console.log(data);
+	}
+
     ref: any | null = null;
 
     columns = [
-        { title: "Name", field: "name", width: 150 },
-        { title: "Age", field: "age", hozAlign: "left", formatter: "progress" },
-        { title: "Favourite Color", field: "color" },
+        { title: "Name", field: "name", formatter: "link"},
+        { title: "Age", field: "age" },
+        { title: "Overall", field: "overall", sorter: "number" },
         { title: "Date Of Birth", field: "dob" },
-        {
-            title: "Rating",
-            field: "rating",
-            hozAlign: "center",
-            formatter: "star",
-        },
-        {
-            title: "Passed?",
-            field: "passed",
-            hozAlign: "center",
-            formatter: "tickCross",
-        },
-        {
-            title: "Custom",
-            field: "custom",
-            hozAlign: "center",
-            editor: "input",
-            formatter: reactFormatter(
-                <SimpleButton
-                    onSelect={(name: any) => {
-                        this.setState({ selectedName: name });
-                        alert(name);
-                    }}
-                />
-            ),
-        },
     ];
-
     rowClick = (
         e: any,
         row: { getData: () => { (): any; new (): any; name: any } }
@@ -111,28 +49,27 @@ class FighterTable extends React.Component {
         console.log("ref table: ", this.ref.table); // this is the Tabulator table instance
         console.log(`rowClick id: \${row.getData().id}`, row, e);
         this.setState({ selectedName: row.getData().name });
-    };
-
-    setData = () => {
-        this.setState({ data });
-    };
-
-    clearData = () => {
-        this.setState({ data: [] });
+		console.log(row.getData());
     };
 
     render() {
         const options = {
-            height: 450,
-            innerWidth: 200,
-            debugInvalidOptions: false,
-        };
+            maxHeight: "100%",
+			initialSort: [
+				{column: "overall", dir: "desc"}
+			],
+			persistence: {
+				sort: true,
+				filter: true,
+			},
+            debugInvalidOptions: false
+		}
         return (
-            <div>
+            <div className="holder">
                 <ReactTabulator
                     ref={(ref) => (this.ref = ref)}
                     columns={this.columns}
-                    data={data}
+                    data={this.props.getFighters}
                     rowClick={this.rowClick}
                     options={options}
                     data-custom-attr="test-custom-attribute"
