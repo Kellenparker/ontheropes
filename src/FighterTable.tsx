@@ -4,7 +4,7 @@ import "./FighterTable.css";
 import { Fighter } from "./handlers/FighterHandler";
 
 import "react-tabulator/lib/styles.css"; // default theme
-import "react-tabulator/css/bootstrap/tabulator_bootstrap.min.css"; // use Theme(s)
+import "react-tabulator/css/tabulator_semanticui.css"; // use Theme(s)
 
 import { ReactTabulator, reactFormatter } from "react-tabulator";
 

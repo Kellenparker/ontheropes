@@ -41,7 +41,7 @@ class App extends React.Component<myProps, myState> {
             <div className="App">
                 <div className="col"></div>
                 <div className="col">
-				<select onChange={(e) => this.change(e)}>
+				<select className="weightSel" onChange={(e) => this.change(e)}>
 					<option value={0}>Flyweight</option>
 					<option value={1}>Bantamweight</option>
 					<option value={2}>Featherweight</option>

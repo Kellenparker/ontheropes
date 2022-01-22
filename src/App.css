@@ -23,6 +23,12 @@
     border-radius: 8px;
 }
 
+.weightSel {
+    height: 25px;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
 .table {
     height: 450px;
 }
