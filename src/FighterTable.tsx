@@ -6,15 +6,14 @@ import { Fighter } from "./handlers/FighterHandler";
 import "react-tabulator/lib/styles.css"; // default theme
 import "react-tabulator/css/tabulator_semanticui.css"; // use Theme(s)
 
-import { ReactTabulator, reactFormatter } from "react-tabulator";
-
+import { ReactTabulator } from "react-tabulator";
+/*
 function SimpleButton(props: any | null) {
     const rowData = props.cell._cell.row.data;
     const cellValue = props.cell._cell.value || "Edit | Show";
     return <button onClick={() => alert(rowData.name)}>{cellValue}</button>;
 }
-
-var data: any[] = []
+*/
 
 type myProps = {
 	getFighters: Fighter[]
@@ -25,22 +24,25 @@ type myState = {
 
 class FighterTable extends React.Component<myProps, myState> {
     
+
 	constructor(props: myProps | Readonly<myProps>){
 		super(props);
 		this.state = {
 			selectedName: ""
 		}
-		data.push(this.props.getFighters);
-		console.log(data);
 	}
 
     ref: any | null = null;
 
     columns = [
-        { title: "Name", field: "name", formatter: "link"},
+        { title: "Name", field: "name", formatter: "link" },
         { title: "Age", field: "age" },
         { title: "Overall", field: "overall", sorter: "number" },
-        { title: "Date Of Birth", field: "dob" },
+        { title: "wins", field: "wins", sorter: "number" },
+        { title: "losses", field: "losses", sorter: "number" },
+        { title: "draws", field: "draws", sorter: "number" },
+        { title: "fights", field: "fights", sorter: "number" },
+        { title: "Footwork", field: "footwork", sorter: "number" }
     ];
 	
     rowClick = (
@@ -63,6 +65,7 @@ class FighterTable extends React.Component<myProps, myState> {
 				sort: true,
 				filter: true,
 			},
+            virtualDOMBuffer: true,
             debugInvalidOptions: false
 		}
         return (
