@@ -16,35 +16,43 @@ function SimpleButton(props: any | null) {
 */
 
 type myProps = {
-	getFighters: Fighter[]
-}
+    getFighters: Fighter[];
+};
 type myState = {
-	selectedName: string
-}
+    selectedName: string;
+};
 
 class FighterTable extends React.Component<myProps, myState> {
-    
-
-	constructor(props: myProps | Readonly<myProps>){
-		super(props);
-		this.state = {
-			selectedName: ""
-		}
-	}
+    constructor(props: myProps | Readonly<myProps>) {
+        super(props);
+        this.state = {
+            selectedName: "",
+        };
+    }
 
     ref: any | null = null;
 
     columns = [
-        { title: "Name", field: "name", formatter: "link" },
+        {
+            title: "Name",
+            field: "name"},
         { title: "Age", field: "age" },
-        { title: "Overall", field: "overall", sorter: "number" },
-        { title: "wins", field: "wins", sorter: "number" },
-        { title: "losses", field: "losses", sorter: "number" },
-        { title: "draws", field: "draws", sorter: "number" },
-        { title: "fights", field: "fights", sorter: "number" },
-        { title: "Footwork", field: "footwork", sorter: "number" }
+        { title: "Overall", field: "formatted.overall", sorter: "number",
+        formatter: function (cell: any, formatterParams: any) {
+            var cellValue = cell.getValue();
+            if (cellValue.includes("+")) {
+                cell.getElement().style.color = "green";
+            } else if (cellValue.includes("-")){
+                cell.getElement().style.color = "red";
+            } else {
+                cell.getElement().style.color = "black";
+            }
+            return cellValue;
+        }},
+        { title: "Record", field: "formatted.record", sorter: "number" },
+        { title: "Streak", field: "formatted.streak", sorter: "number" }
     ];
-	
+
     rowClick = (
         e: any,
         row: { getData: () => { (): any; new (): any; name: any } }
@@ -52,22 +60,20 @@ class FighterTable extends React.Component<myProps, myState> {
         console.log("ref table: ", this.ref.table); // this is the Tabulator table instance
         console.log(`rowClick id: \${row.getData().id}`, row, e);
         this.setState({ selectedName: row.getData().name });
-		console.log(row.getData());
+        console.log(row.getData());
     };
 
     render() {
         const options = {
             maxHeight: "100%",
-			initialSort: [
-				{column: "overall", dir: "desc"}
-			],
-			persistence: {
-				sort: true,
-				filter: true,
-			},
+            initialSort: [{ column: "formatted.overall", dir: "desc" }],
+            persistence: {
+                sort: true,
+                filter: true,
+            },
             virtualDOMBuffer: true,
-            debugInvalidOptions: false
-		}
+            debugInvalidOptions: false,
+        };
         return (
             <div className="holder">
                 <ReactTabulator

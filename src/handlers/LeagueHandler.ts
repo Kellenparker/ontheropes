@@ -1,4 +1,3 @@
-import { start } from "repl";
 import FighterHandler from "./FighterHandler";
 
 interface Time {
@@ -24,6 +23,7 @@ class League {
 
     advance = (amt: number) => {
         console.log("advancing");
+        this.roster.advance();
         for (let i = 0; i < amt; i++) {
             this.time.tick++;
             this.time.week++;
