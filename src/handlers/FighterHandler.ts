@@ -68,6 +68,7 @@ class FighterHandler {
         for (let i = 0; i < wcNum; i++)
             for (let j = 0; j < wcSize; j++)
                 this.progress(this.roster[i][j]);
+        console.log(this.roster);
     }
 
     getRoster = () => this.roster;
