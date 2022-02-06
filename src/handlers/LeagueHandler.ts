@@ -13,18 +13,6 @@ export function demo1() {
             db.createObjectStore("store2");
         },
     });
-    openDB("db2", 1, {
-        upgrade(db) {
-            db.createObjectStore("store3", { keyPath: "id" });
-            db.createObjectStore("store4", { autoIncrement: true });
-        },
-    });
-}
-export async function demo2() {
-    const db1 = await openDB("db1", 1);
-    db1.add("store1", "hello world", "message");
-    db1.add("store1", true, "delivered");
-    db1.close();
 }
 
 class League {
@@ -33,16 +21,22 @@ class League {
 
     constructor(start: number) {
         demo1();
-        demo2();
 
-        this.time = {
-            tick: 0,
-            year: start,
-            week: 1,
-        };
+        if(window.localStorage.getItem('time') === null){
+            this.time = {
+                tick: 0,
+                year: start,
+                week: 1,
+            };
+            window.localStorage.setItem('time', JSON.stringify(this.time));
+        }
+        else{
+            let obj = window.localStorage.getItem('time') as string;
+            this.time = JSON.parse(obj);
+        }
 
+        
         this.roster = new FighterHandler();
-        console.log(this.roster.getRoster());
     }
 
     advance = (amt: number) => {
@@ -56,6 +50,7 @@ class League {
                 this.time.year++;
             }
         }
+        window.localStorage.setItem('time', JSON.stringify(this.time));
     };
 
     getDateStr = () =>
