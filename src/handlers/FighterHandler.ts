@@ -43,9 +43,9 @@ export interface Changes {
 }
 
 export interface FormattedFighter {
-    record: String;
-    overall: String;
-    streak: String;
+    record: string;
+    overall: string;
+    streak: string;
 }
 
 export interface ImportRoster {

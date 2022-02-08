@@ -1,91 +1,107 @@
 import * as React from "react";
-import "react-tabulator";
-import "./FighterTable.css";
+import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
+import clsx from 'clsx';
 import { Fighter } from "./handlers/FighterHandler";
+import "./FighterTable.css";
+import { Box } from "@mui/system";
 
-import "react-tabulator/lib/styles.css"; // default theme
-import "react-tabulator/css/tabulator_semanticui.css"; // use Theme(s)
+const columns: GridColDef[] = [
+    { field: "name", headerName: "Name", minWidth: 100, editable: false },
+    { field: "age", headerName: "Age", minWidth: 50, editable: false },
+    {
+        field: "overall",
+        headerName: "Overall",
+        type: "string",
+        minWidth: 50,
+        align: "right",
+        editable: false,
+        cellClassName: (params: GridCellParams<string>) =>
+            clsx('super-app', {
+                negative: params.value.includes("-"),
+                positive: params.value.includes("+"),
+            }),
+    },
+    {
+        field: "record",
+        headerName: "Record",
+        minWidth: 70,
+        align: "right",
+        editable: false,
+    },
+    {
+        field: "streak",
+        headerName: "Streak",
+        minWidth: 50,
+        align: "right",
+        editable: false,
+    },
+];
 
-import { ReactTabulator } from "react-tabulator";
-/*
-function SimpleButton(props: any | null) {
-    const rowData = props.cell._cell.row.data;
-    const cellValue = props.cell._cell.value || "Edit | Show";
-    return <button onClick={() => alert(rowData.name)}>{cellValue}</button>;
+interface Data {
+    id: number;
+    name: string;
+    age: number;
+    overall: string;
+    record: string;
+    streak: string;
 }
-*/
 
-type myProps = {
-    getFighters: Fighter[];
-};
-type myState = {
-    selectedName: string;
-};
+// function createData(
+//     name: string,
+//     age: number,
+//     population: number,
+//     size: number
+// ): Data {
+//     const density = population / size;
+//     return { name, age, population, size, density };
+// }
 
-class FighterTable extends React.Component<myProps, myState> {
-    constructor(props: myProps | Readonly<myProps>) {
-        super(props);
-        this.state = {
-            selectedName: "",
+interface propData {
+    fighters: Fighter[];
+}
+
+export default function StickyHeadTable(props: propData) {
+
+    const numFighters = props.fighters.length;
+    let formatted = new Array<Data>(numFighters);
+    for (let i = 0; i < numFighters; i++) {
+        formatted[i] = {
+            id: i,
+            name: props.fighters[i].name,
+            age: props.fighters[i].age,
+            overall: props.fighters[i].formatted.overall,
+            record: props.fighters[i].formatted.record,
+            streak: props.fighters[i].formatted.streak,
         };
     }
 
-    ref: any | null = null;
+    const rows = formatted;
 
-    columns = [
-        {
-            title: "Name",
-            field: "name"},
-        { title: "Age", field: "age" },
-        { title: "Overall", field: "formatted.overall", sorter: "number",
-        formatter: function (cell: any, formatterParams: any) {
-            var cellValue = cell.getValue();
-            if (cellValue.includes("+")) {
-                cell.getElement().style.color = "green";
-            } else if (cellValue.includes("-")){
-                cell.getElement().style.color = "red";
-            } else {
-                cell.getElement().style.color = "black";
-            }
-            return cellValue;
-        }},
-        { title: "Record", field: "formatted.record", sorter: "number" },
-        { title: "Streak", field: "formatted.streak", sorter: "number" }
-    ];
-
-    rowClick = (
-        e: any,
-        row: { getData: () => { (): any; new (): any; name: any } }
-    ) => {
-        console.log("ref table: ", this.ref.table); // this is the Tabulator table instance
-        console.log(`rowClick id: \${row.getData().id}`, row, e);
-        this.setState({ selectedName: row.getData().name });
-        console.log(row.getData());
-    };
-
-    render() {
-        const options = {
-            initialSort: [{ column: "formatted.overall", dir: "desc" }],
-            persistence: {
-                sort: true,
-                filter: true,
+    return (
+        <Box sx={{
+            marginTop: 2.5,
+            height: 450,
+            width: 1,
+            '& .super-app-theme--cell': {
+              backgroundColor: 'rgba(224, 183, 60, 0.55)',
+              color: '#1a3e72',
             },
-            debugInvalidOptions: false,
-        };
-        return (
-            <div className="holder">
-                <ReactTabulator
-                    ref={(ref) => (this.ref = ref)}
-                    columns={this.columns}
-                    data={this.props.getFighters}
-                    rowClick={this.rowClick}
-                    options={options}
-                    data-custom-attr="test-custom-attribute"
-                    className="custom-css-class"
-                />
-            </div>
-        );
-    }
+            '& .super-app.positive': {
+              backgroundColor: 'rgba(157, 255, 118, 0.49)',
+            },
+            '& .super-app.negative': {
+              backgroundColor: '#d47483',
+            },
+          }}>
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                pageSize={numFighters}
+                rowsPerPageOptions={[]}
+                disableSelectionOnClick
+                disableColumnSelector
+                disableColumnMenu
+            />
+        </Box>
+    );
 }
-
-export default FighterTable;
