@@ -10,7 +10,8 @@ type myProps = {
 type myState = {
 	league: League;
 	date: string;
-	weightClass: Fighter[];
+	roster: Fighter[][];
+	weightClass: number;
 };
 
 class App extends React.Component<myProps, myState> {
@@ -19,16 +20,15 @@ class App extends React.Component<myProps, myState> {
 		this.state = {
 			league: this.props.league,
 			date: this.props.league.getDateStr(),
-			weightClass: this.props.league.getWeightClass(0)
+			roster: this.props.league.getRoster(),
+			weightClass: 0
 		};
-		this.change = this.change.bind(this);
 		this.advance = this.advance.bind(this);
     }
 	change = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		this.setState({
-			weightClass: this.state.league.getWeightClass(parseInt(e.target.value))
+		this.setState ({
+			weightClass: parseInt(e.target.value)
 		});
-		console.log(e.target.value);
 	}
 	advance = (n: number) => {
 		this.state.league.advance(n);
@@ -53,7 +53,7 @@ class App extends React.Component<myProps, myState> {
 					<option value={8}>Heavyweight</option>
 				</select>
                     <div className="table">
-                        <FighterTable getFighters={this.state.weightClass} />
+                        <FighterTable getFighters={this.state.roster[this.state.weightClass]} />
                     </div>
                 </div>
                 <p id="dayStr">{this.state.date}</p>

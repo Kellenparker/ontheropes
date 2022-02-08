@@ -65,13 +65,11 @@ class FighterTable extends React.Component<myProps, myState> {
 
     render() {
         const options = {
-            maxHeight: "100%",
             initialSort: [{ column: "formatted.overall", dir: "desc" }],
             persistence: {
                 sort: true,
                 filter: true,
             },
-            virtualDOMBuffer: true,
             debugInvalidOptions: false,
         };
         return (

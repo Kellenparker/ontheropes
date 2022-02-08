@@ -48,19 +48,29 @@ export interface FormattedFighter {
     streak: String;
 }
 
+export interface ImportRoster {
+    roster: Fighter[][]
+}
+
 const wcNum = 9;
 const wcSize = 100;
 
 class FighterHandler {
     private roster: Fighter[][];
 
-    constructor() {
-        this.roster = [];
-        for (let i = 0; i < wcNum; i++) {
-            this.roster[i] = [];
-            for (let j = 0; j < wcSize; j++) {
-                this.roster[i][j] = this.generateFighter(i);
+    constructor(localRoster: ImportRoster | null) {
+        if(localRoster === null){
+            this.roster = [];
+            for (let i = 0; i < wcNum; i++) {
+                this.roster[i] = [];
+                for (let j = 0; j < wcSize; j++) {
+                    this.roster[i][j] = this.generateFighter(i);
+                }
             }
+        }
+        else{
+            this.roster = localRoster.roster;
+            console.log(this.roster);
         }
     }
 

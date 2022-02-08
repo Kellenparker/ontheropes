@@ -1,18 +1,9 @@
 import FighterHandler from "./FighterHandler";
-import { openDB } from "idb";
 
 interface Time {
     tick: number;
     year: number;
     week: number;
-}
-export function demo1() {
-    openDB("db1", 1, {
-        upgrade(db) {
-            db.createObjectStore("store1");
-            db.createObjectStore("store2");
-        },
-    });
 }
 
 class League {
@@ -20,8 +11,7 @@ class League {
     roster: FighterHandler;
 
     constructor(start: number) {
-        demo1();
-
+        // Check if time is already saved in browser
         if(window.localStorage.getItem('time') === null){
             this.time = {
                 tick: 0,
@@ -35,8 +25,15 @@ class League {
             this.time = JSON.parse(obj);
         }
 
-        
-        this.roster = new FighterHandler();
+        // Check if roster is already saved in browser
+        if(window.localStorage.getItem('roster') === null){
+            this.roster = new FighterHandler(null);
+            window.localStorage.setItem('roster', JSON.stringify(this.roster));
+        }
+        else{
+            let obj = window.localStorage.getItem('roster') as string;
+            this.roster = new FighterHandler(JSON.parse(obj));
+        }
     }
 
     advance = (amt: number) => {
@@ -51,12 +48,16 @@ class League {
             }
         }
         window.localStorage.setItem('time', JSON.stringify(this.time));
+        window.localStorage.setItem('roster', JSON.stringify(this.roster));
+
     };
 
     getDateStr = () =>
         "Week " + this.time.week.toString() + ", " + this.time.year.toString();
 
     getWeightClass = (index: number) => this.roster.getWeightClass(index);
+
+    getRoster = () => this.roster.getRoster();
 }
 
 export default League;
