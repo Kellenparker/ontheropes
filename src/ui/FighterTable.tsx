@@ -1,8 +1,7 @@
 import * as React from "react";
 import { DataGrid, GridCellParams, GridColDef, GridComparatorFn } from "@mui/x-data-grid";
 import clsx from 'clsx';
-import { Fighter } from "./handlers/FighterHandler";
-import "./FighterTable.css";
+import { Fighter } from "../handlers/FighterHandler";
 import { Box } from "@mui/system";
 
 const ovrComp: GridComparatorFn = (v1, v2) => {
@@ -12,7 +11,7 @@ const ovrComp: GridComparatorFn = (v1, v2) => {
 
 const columns: GridColDef[] = [
     { field: "name", headerName: "Name", minWidth: 100, editable: false, flex: 1  },
-    { field: "age", headerName: "Age", minWidth: 50, editable: false, flex: 1  },
+    { field: "age", headerName: "Age", minWidth: 25, editable: false, flex: 1  },
     {
         field: "overall",
         headerName: "Overall",

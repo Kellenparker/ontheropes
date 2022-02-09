@@ -3,8 +3,8 @@ import Button from "@mui/material/Button";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import "./App.css";
 import FighterTable from "./FighterTable";
-import { Fighter } from "./handlers/FighterHandler";
-import League from "./handlers/LeagueHandler";
+import { Fighter } from "../handlers/FighterHandler";
+import League from "../handlers/LeagueHandler";
 
 type myProps = {
     league: League;

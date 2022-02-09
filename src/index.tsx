@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Header from './Header';
-import App from './App';
+import Header from './ui/Header';
+import App from './ui/App';
 import League from './handlers/LeagueHandler';
 import reportWebVitals from './reportWebVitals';
 
