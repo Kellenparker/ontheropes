@@ -1,20 +1,27 @@
 import * as React from "react";
-import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridCellParams, GridColDef, GridComparatorFn } from "@mui/x-data-grid";
 import clsx from 'clsx';
 import { Fighter } from "./handlers/FighterHandler";
 import "./FighterTable.css";
 import { Box } from "@mui/system";
 
+const ovrComp: GridComparatorFn = (v1, v2) => {
+    return parseInt((v1 as string).substring(0, (v1 as string).indexOf(' ') > 0 ? (v1 as string).indexOf(' ') : (v1 as string).length)) - 
+           parseInt((v2 as string).substring(0, (v2 as string).indexOf(' ') > 0 ? (v2 as string).indexOf(' ') : (v2 as string).length))
+};
+
 const columns: GridColDef[] = [
-    { field: "name", headerName: "Name", minWidth: 100, editable: false },
-    { field: "age", headerName: "Age", minWidth: 50, editable: false },
+    { field: "name", headerName: "Name", minWidth: 100, editable: false, flex: 1  },
+    { field: "age", headerName: "Age", minWidth: 50, editable: false, flex: 1  },
     {
         field: "overall",
         headerName: "Overall",
         type: "string",
+        sortComparator: ovrComp,
         minWidth: 50,
         align: "right",
         editable: false,
+        flex: 1,
         cellClassName: (params: GridCellParams<string>) =>
             clsx('super-app', {
                 negative: params.value.includes("-"),
@@ -27,6 +34,7 @@ const columns: GridColDef[] = [
         minWidth: 70,
         align: "right",
         editable: false,
+        flex: 1,
     },
     {
         field: "streak",
@@ -34,6 +42,7 @@ const columns: GridColDef[] = [
         minWidth: 50,
         align: "right",
         editable: false,
+        flex: 1,
     },
 ];
 
@@ -45,16 +54,6 @@ interface Data {
     record: string;
     streak: string;
 }
-
-// function createData(
-//     name: string,
-//     age: number,
-//     population: number,
-//     size: number
-// ): Data {
-//     const density = population / size;
-//     return { name, age, population, size, density };
-// }
 
 interface propData {
     fighters: Fighter[];
@@ -98,9 +97,16 @@ export default function StickyHeadTable(props: propData) {
                 columns={columns}
                 pageSize={numFighters}
                 rowsPerPageOptions={[]}
+                rowHeight={35}
+                initialState={{
+                    sorting: {
+                        sortModel: [{ field: 'overall', sort: 'desc' }],
+                    },
+                }}
                 disableSelectionOnClick
                 disableColumnSelector
                 disableColumnMenu
+                hideFooter
             />
         </Box>
     );
