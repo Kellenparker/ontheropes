@@ -216,30 +216,31 @@ class FighterHandler {
         const mot = fighter.motivation;
         if(fighter.peakStatus === 0){
 
-            fighter.speed += _.random(0, (mot / 100) / 4, true);
-            fighter.power += _.random(0, (mot / 100) / 4, true);
-            fighter.timing += _.random(0, (mot / 100) / 4, true);
-            fighter.footwork += _.random(0, (mot / 100) / 4, true);
-            fighter.defense += _.random(0, (mot / 100) / 4, true);
-            fighter.stamina += _.random(0, (mot / 100) / 4, true);
+            fighter.speed = _.clamp(fighter.speed + _.random(0, (mot / 100) / 4, true), 0, 100);
+            fighter.power = _.clamp(fighter.power + _.random(0, (mot / 100) / 4, true), 0, 100);
+            fighter.timing = _.clamp(fighter.timing + _.random(0, (mot / 100) / 4, true), 0, 100);
+            fighter.footwork = _.clamp(fighter.footwork + _.random(0, (mot / 100) / 4, true), 0, 100);
+            fighter.defense = _.clamp(fighter.defense + _.random(0, (mot / 100) / 4, true), 0, 100);
+            fighter.stamina = _.clamp(fighter.stamina + _.random(0, (mot / 100) / 4, true), 0, 100);
 
         }else if(fighter.peakStatus === 1){
 
-            fighter.speed += _.random(0, (mot / 100) / 8, true);
-            fighter.power += _.random(0, (mot / 100) / 8, true);
-            fighter.timing += _.random(0, (mot / 100) / 8, true);
-            fighter.footwork += _.random(0, (mot / 100) / 8, true);
-            fighter.defense += _.random(0, (mot / 100) / 8, true);
-            fighter.stamina += _.random(0, (mot / 100) / 8, true);
+            fighter.speed = _.clamp(fighter.speed + _.random(0, (mot / 100) / 8, true), 0, 100);
+            fighter.power = _.clamp(fighter.power + _.random(0, (mot / 100) / 8, true), 0, 100);
+            fighter.timing = _.clamp(fighter.timing + _.random(0, (mot / 100) / 8, true), 0, 100);
+            fighter.footwork = _.clamp(fighter.footwork + _.random(0, (mot / 100) / 8, true), 0, 100);
+            fighter.defense = _.clamp(fighter.defense + _.random(0, (mot / 100) / 8, true), 0, 100);
+            fighter.stamina = _.clamp(fighter.stamina + _.random(0, (mot / 100) / 8, true), 0, 100);
+
 
         }else{
 
-            fighter.speed += _.random(0, -((100 - mot) / 100) / 4, true);
-            fighter.power += _.random(0, -((100 - mot) / 100) / 4, true);
-            fighter.timing += _.random(0, -((100 - mot) / 100) / 4, true);
-            fighter.footwork += _.random(0, -((100 - mot) / 100) / 4, true);
-            fighter.defense += _.random(0, -((100 - mot) / 100) / 4, true);
-            fighter.stamina += _.random(0, -((100 - mot) / 100) / 4, true);
+            fighter.speed = _.clamp(fighter.speed + _.random(0, -((100 - mot) / 100) / 4), 0, 100);
+            fighter.power = _.clamp(fighter.power + _.random(0, -((100 - mot) / 100) / 4), 0, 100);
+            fighter.timing = _.clamp(fighter.timing + _.random(0, -((100 - mot) / 100) / 4), 0, 100);
+            fighter.footwork = _.clamp(fighter.footwork + _.random(0, -((100 - mot) / 100) / 4), 0, 100);
+            fighter.defense = _.clamp(fighter.defense + _.random(0, -((100 - mot) / 100) / 4), 0, 100);
+            fighter.stamina = _.clamp(fighter.stamina + _.random(0, -((100 - mot) / 100) / 4), 0, 100);
 
         }
 
