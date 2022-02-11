@@ -89,7 +89,7 @@ class FighterHandler {
                 this.roster[i][j].age++;
                 this.roster[i][j].career++;
                 this.setPeak(this.roster[i][j]);
-                this.retire(this.roster[i][j]);
+                this.roster[i][j] = this.retire(this.roster[i][j]);
             }
 
     }
@@ -200,9 +200,7 @@ class FighterHandler {
         }
 
         fighter.overall = this.getOverall(fighter);
-        fighter.wins = _.clamp(Math.ceil(fighter.fights * (fighter.overall / 80) * ((100 - fighter.age) / 60)) + _.random(-2, 2, false), 0, fighter.fights);
-        fighter.draws = Math.floor(_.random(0, (fighter.fights - fighter.wins) / 10, false));
-        fighter.losses = fighter.fights - (fighter.wins + fighter.draws);
+        fighter.wins = fighter.draws = fighter.losses = 0;
 
         fighter.formatted = {
             record: fighter.wins + "-" + fighter.losses + "-" + fighter.draws,
@@ -265,15 +263,16 @@ class FighterHandler {
         }
     }
 
-    retire = (fighter: Fighter) => {
+    retire = (fighter: Fighter): Fighter => {
         if(fighter.age > 40){
             console.log("replaced: ");
             console.log(fighter);
-            fighter = this.newFighter(fighter.weightClass);
+            let replacement = this.newFighter(fighter.weightClass);
             console.log("with ");
             console.log(fighter);
+            return replacement
         }
-        return false;
+        return fighter
     }
 }
 
