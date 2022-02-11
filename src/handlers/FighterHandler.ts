@@ -6,6 +6,7 @@ var human_names = require("human-names");
 export interface Fighter {
     name: string;
     age: number;
+    career: number;
     weightClass: number;
     height: number;
     reach: number;
@@ -75,10 +76,22 @@ class FighterHandler {
     }
 
     advance = () => {
+        console.log(this.roster);
         for (let i = 0; i < wcNum; i++)
             for (let j = 0; j < wcSize; j++)
                 this.progress(this.roster[i][j]);
-        console.log(this.roster);
+    }
+
+    age = () => {
+        console.log("aging");
+        for (let i = 0; i < wcNum; i++)
+            for (let j = 0; j < wcSize; j++){
+                this.roster[i][j].age++;
+                this.roster[i][j].career++;
+                this.setPeak(this.roster[i][j]);
+                this.retire(this.roster[i][j]);
+            }
+
     }
 
     getRoster = () => this.roster;
@@ -105,6 +118,63 @@ class FighterHandler {
         let fighter: Fighter = {
             name: human_names.maleRandom() + " " + human_names.allRandom(),
             age: age,
+            career: Math.floor(randomTruncSkewNormal(Math.random(), [0, age - 16], age - 17, 2, 0)),
+            weightClass: wc,
+            height: height,
+            reach: reach,
+            stamina: stamina,
+            chin: chin,
+            damage: damage,
+            power: power,
+            speed: speed,
+            timing: timing,
+            defense: defense,
+            footwork: footwork,
+            motivation: motivation,
+            fights: fights,
+            wins: 0,
+            losses: 0,
+            draws: 0,
+            earnings: 0,
+            success: 0,
+            peakStatus: _.clamp(Math.floor((age - 17) / _.random(7,11)), 0, 2),
+            overall: 0,
+            changes: {} as Changes,
+            formatted: {} as FormattedFighter
+        }
+
+        fighter.overall = this.getOverall(fighter);
+        fighter.wins = _.clamp(Math.ceil(fighter.fights * (fighter.overall / 80) * ((100 - fighter.age) / 60)) + _.random(-2, 2, false), 0, fighter.fights);
+        fighter.draws = Math.floor(_.random(0, (fighter.fights - fighter.wins) / 10, false));
+        fighter.losses = fighter.fights - (fighter.wins + fighter.draws);
+
+        fighter.formatted = {
+            record: fighter.wins + "-" + fighter.losses + "-" + fighter.draws,
+            overall: fighter.overall.toString(),
+            streak: "N/A"
+        } 
+
+        return fighter;
+    }
+
+    newFighter = (wc: number) => {
+        let age = _.random(17, 23, false);
+        let height = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 50, 30, 0));
+        let fights = Math.floor((age - 17) * _.random(1, 3, false));
+        let reach =  Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], height, 30, 0));
+        let stamina =  Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 50, 30, 0));
+        let chin = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 50, 30, 0));
+        let damage = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], (age - 17) * 3, 30, 0));
+        let power = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 50, 30, 0));
+        let speed = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 50, 30, 0));
+        let timing = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 20, 30, 0));
+        let defense = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 20, 30, 0));
+        let footwork = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 20, 30, 0));
+        let motivation = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 50, 30, 0));
+        let fighter: Fighter = {
+            name: human_names.maleRandom() + " " + human_names.allRandom(),
+            age: age,
+            career: Math.floor(randomTruncSkewNormal(Math.random(), [0, age - 16], age - 17, 2, 0)),
             weightClass: wc,
             height: height,
             reach: reach,
@@ -148,30 +218,30 @@ class FighterHandler {
         const mot = fighter.motivation;
         if(fighter.peakStatus === 0){
 
-            fighter.speed += _.random(0, (mot / 100) * 2, false);
-            fighter.power += _.random(0, (mot / 100) * 2, false);
-            fighter.timing += _.random(0, (mot / 100) * 2, false);
-            fighter.footwork += _.random(0, (mot / 100) * 2, false);
-            fighter.defense += _.random(0, (mot / 100) * 2, false);
-            fighter.stamina += _.random(0, (mot / 100) * 2, false);
+            fighter.speed += _.random(0, (mot / 100) / 4, true);
+            fighter.power += _.random(0, (mot / 100) / 4, true);
+            fighter.timing += _.random(0, (mot / 100) / 4, true);
+            fighter.footwork += _.random(0, (mot / 100) / 4, true);
+            fighter.defense += _.random(0, (mot / 100) / 4, true);
+            fighter.stamina += _.random(0, (mot / 100) / 4, true);
 
         }else if(fighter.peakStatus === 1){
 
-            fighter.speed += _.random(0, (mot / 100), false);
-            fighter.power += _.random(0, (mot / 100), false);
-            fighter.timing += _.random(0, (mot / 100), false);
-            fighter.footwork += _.random(0, (mot / 100), false);
-            fighter.defense += _.random(0, (mot / 100), false);
-            fighter.stamina += _.random(0, (mot / 100), false);
+            fighter.speed += _.random(0, (mot / 100) / 8, true);
+            fighter.power += _.random(0, (mot / 100) / 8, true);
+            fighter.timing += _.random(0, (mot / 100) / 8, true);
+            fighter.footwork += _.random(0, (mot / 100) / 8, true);
+            fighter.defense += _.random(0, (mot / 100) / 8, true);
+            fighter.stamina += _.random(0, (mot / 100) / 8, true);
 
         }else{
 
-            fighter.speed += _.random(0, -((100 - mot) / 100) * 2, false);
-            fighter.power += _.random(0, -((100 - mot) / 100) * 2, false);
-            fighter.timing += _.random(0, -((100 - mot) / 100) * 2, false);
-            fighter.footwork += _.random(0, -((100 - mot) / 100) * 2, false);
-            fighter.defense += _.random(0, -((100 - mot) / 100) * 2, false);
-            fighter.stamina += _.random(0, -((100 - mot) / 100) * 2, false);
+            fighter.speed += _.random(0, -((100 - mot) / 100) / 4, true);
+            fighter.power += _.random(0, -((100 - mot) / 100) / 4, true);
+            fighter.timing += _.random(0, -((100 - mot) / 100) / 4, true);
+            fighter.footwork += _.random(0, -((100 - mot) / 100) / 4, true);
+            fighter.defense += _.random(0, -((100 - mot) / 100) / 4, true);
+            fighter.stamina += _.random(0, -((100 - mot) / 100) / 4, true);
 
         }
 
@@ -182,6 +252,28 @@ class FighterHandler {
         } else if (oldOvr > fighter.overall){
             fighter.formatted.overall = fighter.overall + " (-" + (oldOvr - fighter.overall) + ")";
         } else fighter.formatted.overall = fighter.overall.toString();
+    }
+
+    setPeak = (fighter: Fighter) => {
+        if(fighter.career - 14 > 0 && fighter.peakStatus < 2 && _.random(0, fighter.motivation, true) < 50){
+            fighter.peakStatus++;
+            console.log("peakChanged");
+        }
+        else if(fighter.career - 7 > 0 && fighter.peakStatus < 2 && _.random(0, fighter.motivation, true) < 50){
+            fighter.peakStatus++;
+            console.log("peakChanged");
+        }
+    }
+
+    retire = (fighter: Fighter) => {
+        if(fighter.age > 40){
+            console.log("replaced: ");
+            console.log(fighter);
+            fighter = this.newFighter(fighter.weightClass);
+            console.log("with ");
+            console.log(fighter);
+        }
+        return false;
     }
 }
 

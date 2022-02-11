@@ -37,14 +37,14 @@ class League {
     }
 
     advance = (amt: number) => {
-        console.log("advancing");
-        this.roster.advance();
         for (let i = 0; i < amt; i++) {
+            this.roster.advance();
             this.time.tick++;
             this.time.week++;
             if (this.time.week > 52) {
                 this.time.week = 1;
                 this.time.year++;
+                this.roster.age();
             }
         }
         window.localStorage.setItem('time', JSON.stringify(this.time));
