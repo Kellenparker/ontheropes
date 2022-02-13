@@ -7,6 +7,7 @@ export interface Fighter {
     name: string;
     age: number;
     career: number;
+    belts: boolean[];
     weightClass: number;
     height: number;
     reach: number;
@@ -68,11 +69,16 @@ class FighterHandler {
                     this.roster[i][j] = this.generateFighter(i);
                 }
             }
+            
         }
         else{
             this.roster = localRoster.roster;
             console.log(this.roster);
         }
+    }
+
+    setChamps = () => {
+
     }
 
     advance = () => {
@@ -119,6 +125,7 @@ class FighterHandler {
             name: human_names.maleRandom() + " " + human_names.allRandom(),
             age: age,
             career: Math.floor(randomTruncSkewNormal(Math.random(), [0, age - 16], age - 17, 2, 0)),
+            belts: [false, false],
             weightClass: wc,
             height: height,
             reach: reach,
@@ -175,6 +182,7 @@ class FighterHandler {
             name: human_names.maleRandom() + " " + human_names.allRandom(),
             age: age,
             career: Math.floor(randomTruncSkewNormal(Math.random(), [0, age - 16], age - 17, 2, 0)),
+            belts: [false, false],
             weightClass: wc,
             height: height,
             reach: reach,
