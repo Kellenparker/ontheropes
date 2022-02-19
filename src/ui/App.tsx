@@ -78,7 +78,7 @@ class App extends React.Component<myProps, myState> {
                 <Button
                     id="advBtn"
                     variant="contained"
-                    onClick={(e) => this.advance(1)}
+                    onClick={(e) => this.advance(26)}
                 >
                     Advance
                 </Button>

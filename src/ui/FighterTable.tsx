@@ -43,6 +43,14 @@ const columns: GridColDef[] = [
         editable: false,
         flex: 1,
     },
+    {
+        field: "belts",
+        headerName: "Belts",
+        minWidth: 50,
+        align: "right",
+        editable: false,
+        flex: 1,
+    },
 ];
 
 interface Data {
@@ -52,6 +60,7 @@ interface Data {
     overall: string;
     record: string;
     streak: string;
+    belts: number;
 }
 
 interface propData {
@@ -70,6 +79,7 @@ export default function StickyHeadTable(props: propData) {
             overall: props.fighters[i].formatted.overall,
             record: props.fighters[i].formatted.record,
             streak: props.fighters[i].formatted.streak,
+            belts: props.fighters[i].belts
         };
     }
 

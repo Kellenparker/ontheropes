@@ -34,6 +34,7 @@ class League {
             let obj = window.localStorage.getItem('roster') as string;
             this.roster = new FighterHandler(JSON.parse(obj));
         }
+
     }
 
     advance = (amt: number) => {
