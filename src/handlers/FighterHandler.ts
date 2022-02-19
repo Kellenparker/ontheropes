@@ -60,7 +60,7 @@ const numBelts = 3;
 
 class FighterHandler {
     private roster: Fighter[][];
-    private champions: Fighter[][];
+    private champions: (Fighter|null)[][];
 
     constructor(localRoster: ImportRoster | null) {
         this.champions = [];
@@ -469,7 +469,15 @@ class FighterHandler {
     };
 
     retire = (fighter: Fighter): Fighter => {
-        if (fighter.age > 40) {
+        let ret: boolean = false;
+        if(fighter.age > 40) ret = true;
+
+        if (ret) {
+            if(fighter.belts > 0)
+                for(let i = 0; i < numBelts; i++)
+                    if(_.isEqual(this.champions[fighter.weightClass][i], fighter))
+                        this.champions[fighter.weightClass][i] = null;
+
             console.log("replaced: ");
             console.log(fighter);
             let replacement = this.newFighter(fighter.weightClass);
