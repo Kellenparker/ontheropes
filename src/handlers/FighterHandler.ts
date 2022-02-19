@@ -60,8 +60,10 @@ const numBelts = 3;
 
 class FighterHandler {
     private roster: Fighter[][];
+    private champions: Fighter[][];
 
     constructor(localRoster: ImportRoster | null) {
+        this.champions = [];
         if (localRoster === null) {
             this.roster = [];
             for (let i = 0; i < wcNum; i++) {
@@ -75,23 +77,42 @@ class FighterHandler {
         } else {
             this.roster = localRoster.roster;
             console.log(this.roster);
+            this.getChamps();
         }
     }
 
     setChamps = () => {
         let ind;
         for (let i = 0; i < wcNum; i++) {
+            this.champions[i] = []
             for (let j = 0; j < numBelts; j++) {
                 ind = _.random(0, 4, false);
                 this.roster[i][ind].belts++;
+                this.champions[i][j] = this.roster[i][ind];
             }
         }
+        console.log(this.champions);
     };
 
+    getChamps = () => {
+        let currentFound;
+        for (let i = 0; i < wcNum; i++) {
+            this.champions[i] = []
+            currentFound = 0;
+            for (let j = 0; j < wcSize && currentFound < 3; j++) {
+                let belts = this.roster[i][j].belts
+                for(let k = 0; k < belts; k++){
+                    this.champions[i][currentFound] = this.roster[i][j];
+                    currentFound++;
+                }
+            }
+        }
+    }
+
     advance = () => {
-        console.log(this.roster);
         for (let i = 0; i < wcNum; i++)
             for (let j = 0; j < wcSize; j++) this.progress(this.roster[i][j]);
+        console.log(this.champions);
     };
 
     age = () => {
