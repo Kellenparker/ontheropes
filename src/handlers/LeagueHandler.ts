@@ -1,4 +1,5 @@
 import FighterHandler from "./FighterHandler";
+import CardHandler from "./CardHandler";
 
 interface Time {
     tick: number;
@@ -9,6 +10,7 @@ interface Time {
 class League {
     time: Time;
     roster: FighterHandler;
+    cards: CardHandler;
 
     constructor(start: number) {
         // Check if time is already saved in browser
@@ -34,6 +36,8 @@ class League {
             let obj = window.localStorage.getItem('roster') as string;
             this.roster = new FighterHandler(JSON.parse(obj));
         }
+
+        this.cards = new CardHandler(this.time.tick);
 
     }
 
