@@ -1,5 +1,6 @@
 import FighterHandler from "./FighterHandler";
 import CardHandler from "./CardHandler";
+import MatchMaker from "./MatchMaker";
 
 interface Time {
     tick: number;
@@ -44,6 +45,8 @@ class League {
     advance = (amt: number) => {
         for (let i = 0; i < amt; i++) {
             this.roster.advance();
+            this.cards.advance();
+            MatchMaker(this.cards.getCards(), this.roster.getRoster());
             this.time.tick++;
             this.time.week++;
             if (this.time.week > 52) {

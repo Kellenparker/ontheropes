@@ -11,18 +11,33 @@ export interface Card {
 
 class CardHandler {
     private cards: Card[];
+    private cardBuffer = 15;
+    private tick;
 
     constructor(tick: number){
-        let cardBuffer = 15;
+        this.tick = 0;
         this.cards = [];
-        for(let i = 0; i < cardBuffer; i++){
+        for(let i = 0; i < this.cardBuffer; i++){
             this.cards[i] = {
-                date: 0 + i,
+                date: i,
                 matches: []
             }
         }
         console.log(this.cards)
     }
+
+    advance = () => {
+        console.log(this.cards.shift());
+        this.cards[this.cardBuffer - 1] = {
+            date: this.tick + this.cardBuffer,
+            matches: []
+        }
+        this.tick++;
+        console.log(this.cards);
+    }
+
+    getCards = () => this.cards;
+
 
 }
 
