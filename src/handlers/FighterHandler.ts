@@ -63,7 +63,7 @@ const numBelts = 3;
 
 class FighterHandler {
     private roster: Fighter[][];
-    private champions: (Fighter|null)[][];
+    private champions: (Fighter | null)[][];
 
     constructor(localRoster: ImportRoster | null) {
         this.champions = [];
@@ -74,7 +74,7 @@ class FighterHandler {
                 for (let j = 0; j < wcSize; j++) {
                     this.roster[i][j] = this.generateFighter(i);
                 }
-                this.roster[i] = _.orderBy(this.roster[i], 'overall', 'desc');
+                this.roster[i] = _.orderBy(this.roster[i], "overall", "desc");
             }
             this.setChamps();
         } else {
@@ -87,7 +87,7 @@ class FighterHandler {
     setChamps = () => {
         let ind;
         for (let i = 0; i < wcNum; i++) {
-            this.champions[i] = []
+            this.champions[i] = [];
             for (let j = 0; j < numBelts; j++) {
                 ind = _.random(0, 4, false);
                 this.roster[i][ind].belts++;
@@ -100,21 +100,22 @@ class FighterHandler {
     getChamps = () => {
         let currentFound;
         for (let i = 0; i < wcNum; i++) {
-            this.champions[i] = []
+            this.champions[i] = [];
             currentFound = 0;
             for (let j = 0; j < wcSize && currentFound < 3; j++) {
-                let belts = this.roster[i][j].belts
-                for(let k = 0; k < belts; k++){
+                let belts = this.roster[i][j].belts;
+                for (let k = 0; k < belts; k++) {
                     this.champions[i][currentFound] = this.roster[i][j];
                     currentFound++;
                 }
             }
         }
-    }
+    };
 
     advance = (tick: number) => {
         for (let i = 0; i < wcNum; i++)
-            for (let j = 0; j < wcSize; j++) this.progress(this.roster[i][j], tick % 4 === 0);
+            for (let j = 0; j < wcSize; j++)
+                this.progress(this.roster[i][j], tick % 4 === 0);
         console.log(this.roster);
         console.log(this.champions);
     };
@@ -133,6 +134,15 @@ class FighterHandler {
     getRoster = () => this.roster;
 
     getWeightClass = (index: number) => this.roster[index];
+
+    getPercentWithFight = () => {
+        let sum = 0;
+        for (let i = 0; i < wcNum; i++)
+            for (let j = 0; j < wcSize; j++) 
+                if(this.roster[i][j].hasFight) sum++;
+
+        return sum / (wcNum * wcSize);
+    }
 
     getOverall = (fighter: Fighter) =>
         _.clamp(
@@ -249,7 +259,13 @@ class FighterHandler {
         );
         fighter.losses = fighter.fights - (fighter.wins + fighter.draws);
         fighter.popularity = Math.floor(
-            randomTruncSkewNormal(Math.random(), [0, 100], fighter.overall, 30, 0)
+            randomTruncSkewNormal(
+                Math.random(),
+                [0, 100],
+                fighter.overall,
+                30,
+                0
+            )
         );
 
         fighter.formatted = {
@@ -465,12 +481,13 @@ class FighterHandler {
                 fighter.overall + " (-" + (oldOvr - fighter.overall) + ")";
         } else fighter.formatted.overall = fighter.overall.toString();
 
-        if(setType){
+        if (setType) {
             fighter.type = 4;
-            if(fighter.belts > 0) fighter.type = 0;
-            else if(fighter.age < 25 && fighter.overall < 70) fighter.type = 1;
-            else if(fighter.popularity > 80 && fighter.age > 35) fighter.type = 2;
-            else if(fighter.age > 27 && fighter.overall < 50) fighter.type = 3;
+            if (fighter.belts > 0) fighter.type = 0;
+            else if (fighter.age < 25 && fighter.overall < 70) fighter.type = 1;
+            else if (fighter.popularity > 80 && fighter.age > 35)
+                fighter.type = 2;
+            else if (fighter.age > 27 && fighter.overall < 50) fighter.type = 3;
         }
     };
 
@@ -494,12 +511,17 @@ class FighterHandler {
 
     retire = (fighter: Fighter): Fighter => {
         let ret: boolean = false;
-        if(fighter.age > 40) ret = true;
+        if (fighter.age > 40) ret = true;
 
         if (ret) {
-            if(fighter.belts > 0)
-                for(let i = 0; i < numBelts; i++)
-                    if(_.isEqual(this.champions[fighter.weightClass][i], fighter))
+            if (fighter.belts > 0)
+                for (let i = 0; i < numBelts; i++)
+                    if (
+                        _.isEqual(
+                            this.champions[fighter.weightClass][i],
+                            fighter
+                        )
+                    )
                         this.champions[fighter.weightClass][i] = null;
 
             console.log("replaced: ");

@@ -54,6 +54,8 @@ class League {
                 this.time.year++;
                 this.roster.age();
             }
+            console.log(this.cards.getCards());
+            console.log(this.roster.getPercentWithFight() + "%");
         }
         window.localStorage.setItem('time', JSON.stringify(this.time));
         window.localStorage.setItem('roster', JSON.stringify(this.roster));
