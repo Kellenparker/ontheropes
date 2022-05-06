@@ -28,6 +28,7 @@ export interface Fighter {
     hasFight: boolean;
     earnings: number;
     success: number;
+    popularity: number;
     peakStatus: number;
     overall: number;
     changes: Changes;
@@ -226,6 +227,7 @@ class FighterHandler {
             hasFight: false,
             earnings: 0,
             success: 0,
+            popularity: 0,
             peakStatus: _.clamp(Math.floor((age - 17) / _.random(7, 11)), 0, 2),
             overall: 0,
             changes: {} as Changes,
@@ -246,6 +248,9 @@ class FighterHandler {
             _.random(0, (fighter.fights - fighter.wins) / 10, false)
         );
         fighter.losses = fighter.fights - (fighter.wins + fighter.draws);
+        fighter.popularity = Math.floor(
+            randomTruncSkewNormal(Math.random(), [0, 100], fighter.overall, 30, 0)
+        );
 
         fighter.formatted = {
             record: fighter.wins + "-" + fighter.losses + "-" + fighter.draws,
@@ -331,6 +336,7 @@ class FighterHandler {
             hasFight: false,
             earnings: 0,
             success: 0,
+            popularity: 0,
             peakStatus: _.clamp(Math.floor((age - 17) / _.random(7, 11)), 0, 2),
             overall: 0,
             changes: {} as Changes,
@@ -339,6 +345,9 @@ class FighterHandler {
 
         fighter.overall = this.getOverall(fighter);
         fighter.wins = fighter.draws = fighter.losses = 0;
+        fighter.popularity = Math.floor(
+            randomTruncSkewNormal(Math.random(), [0, 100], 10, 30, 0)
+        );
 
         fighter.formatted = {
             record: fighter.wins + "-" + fighter.losses + "-" + fighter.draws,
@@ -459,8 +468,8 @@ class FighterHandler {
         if(setType){
             fighter.type = 4;
             if(fighter.belts > 0) fighter.type = 0;
-            else if(fighter.age < 25) fighter.type = 1;
-            else if(fighter.success > 80 && fighter.age > 35) fighter.type = 2;
+            else if(fighter.age < 25 && fighter.overall < 70) fighter.type = 1;
+            else if(fighter.popularity > 80 && fighter.age > 35) fighter.type = 2;
             else if(fighter.age > 27 && fighter.overall < 50) fighter.type = 3;
         }
     };

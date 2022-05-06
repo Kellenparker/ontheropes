@@ -33,7 +33,6 @@ class CardHandler {
             matches: []
         }
         this.tick++;
-        console.log(this.cards);
     }
 
     getCards = () => this.cards;
