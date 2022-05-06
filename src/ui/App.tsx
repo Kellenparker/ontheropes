@@ -4,7 +4,7 @@ import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@m
 import "./App.css";
 import FighterTable from "./FighterTable";
 import { Fighter } from "../handlers/FighterHandler";
-import League from "../handlers/LeagueHandler";
+import League from "../handlers/LeagueHandler"
 
 type myProps = {
     league: League;

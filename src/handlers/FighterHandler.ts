@@ -9,6 +9,7 @@ export interface Fighter {
     career: number;
     belts: number;
     weightClass: number;
+    type: number; // 0: champ, 1: prospect, 2: legend, 3: can, 4: average
     height: number;
     reach: number;
     stamina: number;
@@ -24,6 +25,7 @@ export interface Fighter {
     wins: number;
     losses: number;
     draws: number;
+    hasFight: boolean;
     earnings: number;
     success: number;
     peakStatus: number;
@@ -109,9 +111,10 @@ class FighterHandler {
         }
     }
 
-    advance = () => {
+    advance = (tick: number) => {
         for (let i = 0; i < wcNum; i++)
-            for (let j = 0; j < wcSize; j++) this.progress(this.roster[i][j]);
+            for (let j = 0; j < wcSize; j++) this.progress(this.roster[i][j], tick % 4 === 0);
+        console.log(this.roster);
         console.log(this.champions);
     };
 
@@ -204,6 +207,7 @@ class FighterHandler {
             ),
             belts: 0,
             weightClass: wc,
+            type: 4,
             height: height,
             reach: reach,
             stamina: stamina,
@@ -219,6 +223,7 @@ class FighterHandler {
             wins: 0,
             losses: 0,
             draws: 0,
+            hasFight: false,
             earnings: 0,
             success: 0,
             peakStatus: _.clamp(Math.floor((age - 17) / _.random(7, 11)), 0, 2),
@@ -307,6 +312,7 @@ class FighterHandler {
             ),
             belts: 0,
             weightClass: wc,
+            type: 4,
             height: height,
             reach: reach,
             stamina: stamina,
@@ -322,6 +328,7 @@ class FighterHandler {
             wins: 0,
             losses: 0,
             draws: 0,
+            hasFight: false,
             earnings: 0,
             success: 0,
             peakStatus: _.clamp(Math.floor((age - 17) / _.random(7, 11)), 0, 2),
@@ -342,7 +349,7 @@ class FighterHandler {
         return fighter;
     };
 
-    progress = (fighter: Fighter) => {
+    progress = (fighter: Fighter, setType: boolean) => {
         const mot = fighter.motivation;
         if (fighter.peakStatus === 0) {
             fighter.speed = _.clamp(
@@ -448,6 +455,14 @@ class FighterHandler {
             fighter.formatted.overall =
                 fighter.overall + " (-" + (oldOvr - fighter.overall) + ")";
         } else fighter.formatted.overall = fighter.overall.toString();
+
+        if(setType){
+            fighter.type = 4;
+            if(fighter.belts > 0) fighter.type = 0;
+            else if(fighter.age < 25) fighter.type = 1;
+            else if(fighter.success > 80 && fighter.age > 35) fighter.type = 2;
+            else if(fighter.age > 27 && fighter.overall < 50) fighter.type = 3;
+        }
     };
 
     setPeak = (fighter: Fighter) => {
