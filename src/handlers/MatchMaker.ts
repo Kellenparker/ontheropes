@@ -22,7 +22,7 @@ function MatchMaker(cards: Card[], roster: Fighter[][]): void{
                     if(roster[i][k].hasFight) continue;
                     if(roster[i][j].type === 3) continue;
 
-                    score = (roster[i][k].popularity / (100.0 / .4)) + (roster[i][k].overall / (100.0 / .3)) + (roster[i][k].belts / (3 / .3));
+                    score = (roster[i][k].popularity / (100.0 / .35)) + (roster[i][k].overall / (100.0 / .25)) + (roster[i][k].belts / (3 / .3));
                     score = _.clamp(score + _.random(-.05, .05, true), 0, 100);
 
                     if(score > candidate) {
@@ -38,7 +38,7 @@ function MatchMaker(cards: Card[], roster: Fighter[][]): void{
                     if(roster[i][k].hasFight) continue;
                     if(roster[i][k].overall >= roster[i][j].overall) continue;
 
-                    score = (.8 / (Math.abs(roster[i][k].overall - (roster[i][j].overall - 5)) + 1));
+                    score = (.7 / (Math.abs(roster[i][k].overall - (roster[i][j].overall - 5)) + 1));
                     score = _.clamp(score + _.random(-.05, .05, true), 0, 100);
 
                     if(score > candidate){
@@ -52,7 +52,7 @@ function MatchMaker(cards: Card[], roster: Fighter[][]): void{
                     if(j === k) continue;
                     if(roster[i][k].hasFight) continue;
 
-                    score = (roster[i][k].popularity / (100.0 / .5)) - (roster[i][k].overall / (100.0 / .2)) + (roster[i][k].belts / (3 / .3));
+                    score = (roster[i][k].popularity / (100.0 / .4)) - (roster[i][k].overall / (100.0 / .3)) + (roster[i][k].belts / (3 / .2));
                     score = _.clamp(score + _.random(-.05, .05, true), 0, 100);
 
                     if(score > candidate){
@@ -67,7 +67,7 @@ function MatchMaker(cards: Card[], roster: Fighter[][]): void{
                     if(j === k) continue;
                     if(roster[i][k].hasFight) continue;
                     
-                    score = (.4 / (Math.abs(roster[i][k].overall - roster[i][j].overall) + 1));
+                    score = (.3 / (Math.abs(roster[i][k].overall - roster[i][j].overall) + 1));
                     score = _.clamp(score + _.random(-.05, .05, true), 0, 100);
 
                     if(score > candidate){
@@ -82,7 +82,7 @@ function MatchMaker(cards: Card[], roster: Fighter[][]): void{
                     if(j === k) continue;
                     if(roster[i][k].hasFight) continue;
                     
-                    score = (.4 / (Math.abs(roster[i][k].overall - roster[i][j].overall) + 1));
+                    score = (.3 / (Math.abs(roster[i][k].overall - roster[i][j].overall) + 1));
                     score = _.clamp(score + _.random(-.05, .05, true), 0, 100);
 
                     if(score > candidate){

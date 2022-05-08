@@ -38,7 +38,16 @@ class League {
             this.roster = new FighterHandler(JSON.parse(obj));
         }
 
-        this.cards = new CardHandler(this.time.tick);
+        // Check if cards is already saved in browser
+        if(window.localStorage.getItem('cards') === null){
+            this.cards = new CardHandler(null);
+            window.localStorage.setItem('cards', JSON.stringify(this.cards));
+        }
+        else{
+            let obj = window.localStorage.getItem('cards') as string;
+            console.log(obj);
+            this.cards = new CardHandler(JSON.parse(obj));
+        }
 
     }
 
@@ -59,6 +68,7 @@ class League {
         }
         window.localStorage.setItem('time', JSON.stringify(this.time));
         window.localStorage.setItem('roster', JSON.stringify(this.roster));
+        window.localStorage.setItem('cards', JSON.stringify(this.cards));
 
     };
 

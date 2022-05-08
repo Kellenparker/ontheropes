@@ -9,21 +9,30 @@ export interface Card {
     revenue?: number;
 }
 
+interface ImportCard {
+    cards: Card[]
+}
+
 class CardHandler {
     private cards: Card[];
     private cardBuffer = 15;
     private tick;
 
-    constructor(tick: number){
+    constructor(localCards: ImportCard | null){
+        console.log(localCards);
         this.tick = 0;
-        this.cards = [];
-        for(let i = 0; i < this.cardBuffer; i++){
-            this.cards[i] = {
-                date: i,
-                matches: []
+        if(localCards === null){
+            this.cards = [];
+            for(let i = 0; i < this.cardBuffer; i++){
+                this.cards[i] = {
+                    date: i,
+                    matches: []
+                }
             }
+        } else {
+            this.cards = localCards.cards;
+            console.log(this.cards);
         }
-        console.log(this.cards)
     }
 
     advance = () => {

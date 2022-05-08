@@ -53,7 +53,7 @@ export interface FormattedFighter {
     streak: string;
 }
 
-export interface ImportRoster {
+interface ImportRoster {
     roster: Fighter[][];
 }
 
