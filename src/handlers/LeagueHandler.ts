@@ -45,8 +45,7 @@ class League {
         }
         else{
             let obj = window.localStorage.getItem('cards') as string;
-            console.log(obj);
-            this.cards = new CardHandler(JSON.parse(obj));
+            this.cards = new CardHandler(JSON.parse(obj), this.roster);
         }
 
     }

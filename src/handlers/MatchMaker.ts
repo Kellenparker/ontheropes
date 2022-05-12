@@ -96,7 +96,14 @@ function MatchMaker(cards: Card[], roster: Fighter[][]): void{
                 roster[i][j].hasFight = true;
                 roster[i][candInd].hasFight = true;
                 let match: Fighter[] = [roster[i][j], roster[i][candInd]];
-                cards[_.random(0, 14, false)].matches.push(match);
+                let matchId = {
+                    fone: roster[i][j].id, 
+                    ftwo: roster[i][candInd].id, 
+                    weight: roster[i][j].weightClass
+                }
+                let loc = _.random(0, 14, false)
+                cards[loc].matches.push(match);
+                cards[loc].matchId.push(matchId);
                 console.log("Match Found");
             }
             

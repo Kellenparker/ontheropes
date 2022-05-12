@@ -1,9 +1,11 @@
 import * as _ from "lodash";
 import { randomTruncSkewNormal } from "../tools/rand";
+import { nanoid } from 'nanoid'
 
 var human_names = require("human-names");
 
 export interface Fighter {
+    id: string;
     name: string;
     age: number;
     career: number;
@@ -62,8 +64,8 @@ const wcSize = 100;
 const numBelts = 3;
 
 class FighterHandler {
-    private roster: Fighter[][];
-    private champions: (Fighter | null)[][];
+    roster: Fighter[][];
+    champions: (Fighter | null)[][];
 
     constructor(localRoster: ImportRoster | null) {
         this.champions = [];
@@ -205,6 +207,7 @@ class FighterHandler {
             randomTruncSkewNormal(Math.random(), [0, 100], 50, 30, 0)
         );
         let fighter: Fighter = {
+            id: nanoid(9),
             name: human_names.maleRandom() + " " + human_names.allRandom(),
             age: age,
             career: Math.floor(
@@ -320,6 +323,7 @@ class FighterHandler {
             randomTruncSkewNormal(Math.random(), [0, 100], 50, 30, 0)
         );
         let fighter: Fighter = {
+            id: nanoid(9),
             name: human_names.maleRandom() + " " + human_names.allRandom(),
             age: age,
             career: Math.floor(
