@@ -16,7 +16,7 @@ export interface Card {
 }
 
 interface ImportCard {
-    cards: Card[]
+    cards: Card[];
 }
 
 class CardHandler {
@@ -24,37 +24,35 @@ class CardHandler {
     private cardBuffer = 15;
     private tick;
 
-    constructor(localCards: ImportCard | null, roster: FighterHandler | null = null){
+    constructor(localCards: ImportCard | null, roster: FighterHandler | null = null) {
         this.tick = 0;
-        if(localCards === null){
+        if (localCards === null) {
             this.cards = [];
-            for(let i = 0; i < this.cardBuffer; i++){
+            for (let i = 0; i < this.cardBuffer; i++) {
                 this.cards[i] = {
                     date: i,
                     matches: [],
-                    matchId: []
-                }
+                    matchId: [],
+                };
             }
         } else {
             this.cards = [];
-            for(let i = 0; i < this.cardBuffer; i++){
+            for (let i = 0; i < this.cardBuffer; i++) {
                 let matchups = localCards.cards[i].matchId;
                 let matches: Fighter[][] = [];
 
-                matchups.forEach(match => {
+                matchups.forEach((match) => {
+                    let fighterOne = _.find(roster?.roster[match.weight], { id: match.fone });
+                    let fighterTwo = _.find(roster?.roster[match.weight], { id: match.ftwo });
 
-                    let fighterOne = _.find(roster?.roster[match.weight], {'id': match.fone});
-                    let fighterTwo = _.find(roster?.roster[match.weight], {'id': match.ftwo});
-                    
                     matches.push([fighterOne!, fighterTwo!]);
-
                 });
 
                 this.cards[i] = {
                     date: i,
                     matches: matches,
-                    matchId: matchups
-                }
+                    matchId: matchups,
+                };
             }
             console.log(this.cards);
         }
@@ -65,14 +63,12 @@ class CardHandler {
         this.cards[this.cardBuffer - 1] = {
             date: this.tick + this.cardBuffer,
             matches: [],
-            matchId: []
-        }
+            matchId: [],
+        };
         this.tick++;
-    }
+    };
 
     getCards = () => this.cards;
-
-
 }
 
 export default CardHandler;

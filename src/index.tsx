@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Header from './ui/Header';
 import App from './ui/App';
-import League from './handlers/LeagueHandler';
+import League from './handlers/League';
 import reportWebVitals from './reportWebVitals';
 
 const league = new League(2022);

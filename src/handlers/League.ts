@@ -76,7 +76,7 @@ class League {
 
     getWeightClass = (index: number) => this.roster.getWeightClass(index);
 
-    getRoster = () => this.roster.getRoster();
+    getRoster = () => this.roster.roster;
 }
 
 export default League;
