@@ -1,6 +1,5 @@
 import _ from "lodash";
 import { Match } from "./CardHandler";
-import { Fighter } from "./FighterHandler";
 
 function Fight(match: Match){
     
@@ -28,6 +27,11 @@ function Fight(match: Match){
         match.fighterOne.wins += 1;
         match.fighterTwo.losses += 1;
 
+        if(match.fighterOne.streak > 0) match.fighterOne.streak++;
+        else match.fighterOne.streak = 1;
+        if(match.fighterTwo.streak < 0) match.fighterTwo.streak--;
+        else match.fighterTwo.streak = -1;
+
         match.fighterOne.hasFight = false;
         match.fighterTwo.hasFight = false;
     }
@@ -48,6 +52,11 @@ function Fight(match: Match){
 
         match.fighterOne.losses += 1;
         match.fighterTwo.wins += 1;
+
+        if(match.fighterOne.streak < 0) match.fighterOne.streak--;
+        else match.fighterOne.streak = -1;
+        if(match.fighterTwo.streak > 0) match.fighterTwo.streak++;
+        else match.fighterTwo.streak = 1;
 
         match.fighterOne.hasFight = false;
         match.fighterTwo.hasFight = false;

@@ -42,6 +42,11 @@ const columns: GridColDef[] = [
         align: "right",
         editable: false,
         flex: 1,
+        cellClassName: (params: GridCellParams<string>) =>
+            clsx('super-app', {
+                negative: params.value.includes("-"),
+                positive: params.value.includes("+"),
+            }),
     },
     {
         field: "belts",

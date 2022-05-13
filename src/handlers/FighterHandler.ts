@@ -27,6 +27,7 @@ export interface Fighter {
     wins: number;
     losses: number;
     draws: number;
+    streak: number;
     hasFight: boolean;
     earnings: number;
     success: number;
@@ -56,7 +57,7 @@ export interface FormattedFighter {
 }
 
 interface ImportRoster {
-    roster: Fighter[][];
+    fighters: Fighter[][];
 }
 
 const wcNum = 9;
@@ -80,7 +81,7 @@ class FighterHandler {
             }
             this.setChamps();
         } else {
-            this.fighters = localRoster.roster;
+            this.fighters = localRoster.fighters;
             console.log(this.fighters);
             this.getChamps();
         }
@@ -198,6 +199,7 @@ class FighterHandler {
             wins: 0,
             losses: 0,
             draws: 0,
+            streak: 0,
             hasFight: false,
             earnings: 0,
             success: 0,
@@ -264,6 +266,7 @@ class FighterHandler {
             wins: 0,
             losses: 0,
             draws: 0,
+            streak: 0,
             hasFight: false,
             earnings: 0,
             success: 0,
@@ -319,6 +322,11 @@ class FighterHandler {
         } else if (oldOvr > fighter.overall) {
             fighter.formatted.overall = fighter.overall + " (-" + (oldOvr - fighter.overall) + ")";
         } else fighter.formatted.overall = fighter.overall.toString();
+
+        fighter.formatted.record = fighter.wins + "-" + fighter.losses + "-" + fighter.draws;
+
+        if(fighter.streak > 0) fighter.formatted.streak = "+" + fighter.streak;
+        else if(fighter.streak < 0) fighter.formatted.streak = fighter.streak.toString();
 
         if (setType) {
             fighter.type = 4;
