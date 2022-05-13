@@ -52,8 +52,8 @@ class League {
 
     advance = (amt: number) => {
         for (let i = 0; i < amt; i++) {
-            this.roster.advance(this.time.tick);
             this.cards.advance();
+            this.roster.advance(this.time.tick);
             MatchMaker(this.cards.getCards(), this.roster);
             this.time.tick++;
             this.time.week++;
