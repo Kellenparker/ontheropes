@@ -54,7 +54,7 @@ class League {
         for (let i = 0; i < amt; i++) {
             this.roster.advance(this.time.tick);
             this.cards.advance();
-            MatchMaker(this.cards.getCards(), this.roster.getRoster());
+            MatchMaker(this.cards.getCards(), this.roster);
             this.time.tick++;
             this.time.week++;
             if (this.time.week > 52) {
@@ -69,6 +69,8 @@ class League {
         window.localStorage.setItem('roster', JSON.stringify(this.roster));
         window.localStorage.setItem('cards', JSON.stringify(this.cards));
 
+        console.log(this.roster.fighters);
+
     };
 
     getDateStr = () =>
@@ -76,7 +78,7 @@ class League {
 
     getWeightClass = (index: number) => this.roster.getWeightClass(index);
 
-    getRoster = () => this.roster.roster;
+    getRoster = () => this.roster.fighters;
 }
 
 export default League;

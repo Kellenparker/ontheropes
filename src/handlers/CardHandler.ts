@@ -1,9 +1,16 @@
 import FighterHandler, { Fighter } from "./FighterHandler";
 import * as _ from "lodash";
+import Fight from "./Fight";
+
+export interface Match {
+    fighterOne: Fighter;
+    fighterTwo: Fighter;
+    result?: number;
+}
 
 export interface Card {
     date: number;
-    matches: Fighter[][];
+    matches: Match[];
     matchId: {
         fone: string;
         ftwo: string;
@@ -38,14 +45,17 @@ class CardHandler {
         } else {
             this.cards = [];
             for (let i = 0; i < this.cardBuffer; i++) {
+                let matches: Match[] = [];
                 let matchups = localCards.cards[i].matchId;
-                let matches: Fighter[][] = [];
 
                 matchups.forEach((match) => {
-                    let fighterOne = _.find(roster?.roster[match.weight], { id: match.fone });
-                    let fighterTwo = _.find(roster?.roster[match.weight], { id: match.ftwo });
+                    let fighterOne = _.find(roster?.fighters[match.weight], { id: match.fone });
+                    let fighterTwo = _.find(roster?.fighters[match.weight], { id: match.ftwo });
 
-                    matches.push([fighterOne!, fighterTwo!]);
+                    matches.push({
+                        fighterOne: fighterOne!,
+                        fighterTwo: fighterTwo!,
+                    });
                 });
 
                 this.cards[i] = {
@@ -59,6 +69,7 @@ class CardHandler {
     }
 
     advance = () => {
+        this.exec();
         console.log(this.cards.shift());
         this.cards[this.cardBuffer - 1] = {
             date: this.tick + this.cardBuffer,
@@ -66,6 +77,12 @@ class CardHandler {
             matchId: [],
         };
         this.tick++;
+    };
+
+    exec = () => {
+        this.cards[0].matches.forEach((match) => {
+            Fight(match);
+        });
     };
 
     getCards = () => this.cards;
