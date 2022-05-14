@@ -1,8 +1,8 @@
 import _ from "lodash";
-import { Card, Match } from "./CardHandler";
+import { Match, Week } from "./CardHandler";
 import FighterHandler from "./FighterHandler";
 
-function MatchMaker(cards: Card[], roster: FighterHandler): void {
+function MatchMaker(weeks: Week[], roster: FighterHandler): void {
     let fighters = roster.fighters;
     let wcNum: number = fighters.length;
     let wcSize: number = fighters[0].length;
@@ -101,18 +101,19 @@ function MatchMaker(cards: Card[], roster: FighterHandler): void {
             if (_.random(0, 1, true) < candidate) {
                 fighters[i][j].hasFight = true;
                 fighters[i][candInd].hasFight = true;
+                let hype = fighters[i][j].overall + fighters[i][candInd].overall + (fighters[i][j].belts > 1 ? 100 : 0 ) + (fighters[i][candInd].belts > 1 ? 100 : 0 )
                 let match: Match = {
                     fighterOne: fighters[i][j],
                     fighterTwo: fighters[i][candInd],
-                }
-                let matchId = {
-                    fone: fighters[i][j].id,
-                    ftwo: fighters[i][candInd].id,
                     weight: fighters[i][j].weightClass,
+                    hype: hype,
+                    matchId: {
+                        fone: fighters[i][j].id,
+                        ftwo: fighters[i][candInd].id,
+                    }
                 };
                 let loc = _.random(0, 14, false);
-                cards[loc].matches.push(match);
-                cards[loc].matchId.push(matchId);
+                weeks[loc].cards[0].matches.push(match);
                 console.log("Match Found");
             }
         }

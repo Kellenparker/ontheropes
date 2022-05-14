@@ -6,86 +6,113 @@ export interface Match {
     fighterOne: Fighter;
     fighterTwo: Fighter;
     result?: number;
+    weight: number;
+    hype: number;
+    matchId: {
+        fone: string;
+        ftwo: string;
+    };
 }
 
 export interface Card {
     date: number;
     matches: Match[];
-    matchId: {
-        fone: string;
-        ftwo: string;
-        weight: number;
-    }[];
     rating?: number;
     hype?: number;
     attendance?: number;
     revenue?: number;
 }
 
-interface ImportCard {
+export interface Week {
     cards: Card[];
+    numFights: number;
+}
+
+interface ImportCard {
+    weeks: Week[];
 }
 
 class CardHandler {
-    private cards: Card[];
+    weeks: Week[];
     private cardBuffer = 15;
     private tick;
 
     constructor(localCards: ImportCard | null, roster: FighterHandler | null = null) {
         this.tick = 0;
         if (localCards === null) {
-            this.cards = [];
+            this.weeks = [];
             for (let i = 0; i < this.cardBuffer; i++) {
-                this.cards[i] = {
+                this.weeks[i] = {
+                    cards: [],
+                    numFights: 0
+                };
+                this.weeks[i].cards[0] = {
                     date: i,
-                    matches: [],
-                    matchId: [],
+                    matches: []
                 };
             }
         } else {
-            this.cards = [];
+            this.weeks = [];
             for (let i = 0; i < this.cardBuffer; i++) {
-                let matches: Match[] = [];
-                let matchups = localCards.cards[i].matchId;
+                this.weeks[i].numFights = localCards.weeks[i].numFights;
 
-                matchups.forEach((match) => {
-                    let fighterOne = _.find(roster?.fighters[match.weight], { id: match.fone });
-                    let fighterTwo = _.find(roster?.fighters[match.weight], { id: match.ftwo });
+                let len = localCards.weeks[i].cards.length;
+                this.weeks[i].cards = [];
+                for (let j = 0; j < len; j++){
+                    let matches: Match[] = [];
+                    let matchups = localCards.weeks[i].cards[j].matches;
 
-                    matches.push({
-                        fighterOne: fighterOne!,
-                        fighterTwo: fighterTwo!,
+                    matchups.forEach((match) => {
+                        let fighterOne = _.find(roster?.fighters[match.weight], { id: match.matchId.fone });
+                        let fighterTwo = _.find(roster?.fighters[match.weight], { id: match.matchId.ftwo });
+
+                        matches.push({
+                            fighterOne: fighterOne!,
+                            fighterTwo: fighterTwo!,
+                            weight: match.weight,
+                            hype: match.hype,
+                            matchId: match.matchId
+                        });
                     });
-                });
 
-                this.cards[i] = {
-                    date: i,
-                    matches: matches,
-                    matchId: matchups,
-                };
+                    this.weeks[i].cards[j] = {
+                        date: i,
+                        matches: matches
+                    };
+                }
             }
-            console.log(this.cards);
         }
+
+        console.log(this.weeks);
     }
 
     advance = () => {
         this.exec();
-        console.log(this.cards.shift());
-        this.cards[this.cardBuffer - 1] = {
-            date: this.tick + this.cardBuffer,
-            matches: [],
-            matchId: [],
+        this.weeks.shift();
+        this.weeks[this.cardBuffer - 1] = {
+            cards: [],
+            numFights: 0
         };
+        this.weeks[this.cardBuffer - 1].cards[0] = {
+            date: this.tick + this.cardBuffer,
+            matches: []
+        };
+        for(let i = 0; i < this.cardBuffer - 1; i++){
+
+        }
         this.tick++;
     };
 
     exec = () => {
-        this.cards[0].matches.forEach((match) => {
-            Fight(match);
-        });
+        let len = this.weeks[0].cards.length;
+        for(let i = 0; i < len; i++){
+            this.weeks[0].cards[i].matches.forEach((match) => {
+                Fight(match);
+            });
+        }
     };
 
-    getCards = () => this.cards;
+    getWeek = () => this.weeks;
 }
 
 export default CardHandler;

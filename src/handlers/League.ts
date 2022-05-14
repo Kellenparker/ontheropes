@@ -54,7 +54,7 @@ class League {
         for (let i = 0; i < amt; i++) {
             this.cards.advance();
             this.roster.advance(this.time.tick);
-            MatchMaker(this.cards.getCards(), this.roster);
+            MatchMaker(this.cards.weeks, this.roster);
             this.time.tick++;
             this.time.week++;
             if (this.time.week > 52) {
@@ -62,7 +62,7 @@ class League {
                 this.time.year++;
                 this.roster.age();
             }
-            console.log(this.cards.getCards());
+            console.log(this.cards.getWeek());
             console.log(this.roster.getPercentWithFight() + "%");
         }
         window.localStorage.setItem('time', JSON.stringify(this.time));
