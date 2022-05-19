@@ -15,7 +15,6 @@ export interface Match {
 }
 
 export interface Card {
-    date: number;
     matches: Match[];
     rating?: number;
     hype?: number;
@@ -24,6 +23,7 @@ export interface Card {
 }
 
 export interface Week {
+    date: number;
     cards: Card[];
     numFights: number;
 }
@@ -43,11 +43,11 @@ class CardHandler {
             this.weeks = [];
             for (let i = 0; i < this.cardBuffer; i++) {
                 this.weeks[i] = {
+                    date: i,
                     cards: [],
                     numFights: 0
                 };
                 this.weeks[i].cards[0] = {
-                    date: i,
                     matches: []
                 };
             }
@@ -55,6 +55,7 @@ class CardHandler {
             this.weeks = [];
             for (let i = 0; i < this.cardBuffer; i++) {
                 this.weeks[i] = {
+                    date: localCards.weeks[i].date,
                     numFights: localCards.weeks[i].numFights,
                     cards: []
                 };
@@ -78,7 +79,6 @@ class CardHandler {
                     });
 
                     this.weeks[i].cards[j] = {
-                        date: i,
                         matches: matches
                     };
                 }
@@ -92,11 +92,11 @@ class CardHandler {
         this.exec();
         this.weeks.shift();
         this.weeks[this.cardBuffer - 1] = {
+            date: this.tick + this.cardBuffer,
             cards: [],
             numFights: 0
         };
         this.weeks[this.cardBuffer - 1].cards[0] = {
-            date: this.tick + this.cardBuffer,
             matches: []
         };
 
@@ -114,10 +114,23 @@ class CardHandler {
 
     structureCard = () => {
 
-        let numCards = this.weeks[4].numFights / 7;
+        let numCards = Math.floor(this.weeks[4].numFights / 7);
         let fights: Match[] = _.orderBy(this.weeks[4].cards[0].matches, "hype", "desc");
-        
+        this.weeks[4].cards[0].matches = [];
+
         console.log(fights);
+
+        for(let i = 0; i < numCards; i++){
+            this.weeks[4].cards[i] = {
+                matches: []
+            }
+        }
+
+        for(let i = 0; i < this.weeks[4].numFights; i++){
+            this.weeks[4].cards[i % numCards].matches.push(fights[i]);
+        }
+
+        console.log(this.weeks[4]);
         
     };
 

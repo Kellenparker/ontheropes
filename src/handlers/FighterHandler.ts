@@ -118,8 +118,6 @@ class FighterHandler {
     advance = (tick: number) => {
         for (let i = 0; i < wcNum; i++)
             for (let j = 0; j < wcSize; j++) this.progress(this.fighters[i][j], tick % 4 === 0);
-        console.log(this.fighters);
-        console.log(this.champions);
     };
 
     age = () => {
