@@ -55,6 +55,7 @@ class League {
             this.cards.advance();
             this.roster.advance(this.time.tick);
             MatchMaker(this.cards.weeks, this.roster);
+            this.cards.structureCard();
             this.time.tick++;
             this.time.week++;
             if (this.time.week > 52) {

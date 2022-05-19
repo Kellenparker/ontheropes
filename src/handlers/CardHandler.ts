@@ -54,10 +54,12 @@ class CardHandler {
         } else {
             this.weeks = [];
             for (let i = 0; i < this.cardBuffer; i++) {
-                this.weeks[i].numFights = localCards.weeks[i].numFights;
+                this.weeks[i] = {
+                    numFights: localCards.weeks[i].numFights,
+                    cards: []
+                };
 
                 let len = localCards.weeks[i].cards.length;
-                this.weeks[i].cards = [];
                 for (let j = 0; j < len; j++){
                     let matches: Match[] = [];
                     let matchups = localCards.weeks[i].cards[j].matches;
@@ -97,9 +99,7 @@ class CardHandler {
             date: this.tick + this.cardBuffer,
             matches: []
         };
-        for(let i = 0; i < this.cardBuffer - 1; i++){
 
-        }
         this.tick++;
     };
 
@@ -110,6 +110,15 @@ class CardHandler {
                 Fight(match);
             });
         }
+    };
+
+    structureCard = () => {
+
+        let numCards = this.weeks[4].numFights / 7;
+        let fights: Match[] = _.orderBy(this.weeks[4].cards[0].matches, "hype", "desc");
+        
+        console.log(fights);
+        
     };
 
     getWeek = () => this.weeks;

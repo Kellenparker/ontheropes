@@ -98,7 +98,7 @@ function MatchMaker(weeks: Week[], roster: FighterHandler): void {
                 }
             }
 
-            if (_.random(0, 1, true) < candidate) {
+            if (_.random(0, 1, true) < candidate && candInd !== -1) {
                 fighters[i][j].hasFight = true;
                 fighters[i][candInd].hasFight = true;
                 let hype = fighters[i][j].overall + fighters[i][candInd].overall + (fighters[i][j].belts > 1 ? 100 : 0 ) + (fighters[i][candInd].belts > 1 ? 100 : 0 )
@@ -112,8 +112,9 @@ function MatchMaker(weeks: Week[], roster: FighterHandler): void {
                         ftwo: fighters[i][candInd].id,
                     }
                 };
-                let loc = _.random(0, 14, false);
+                let loc = _.random(4, 14, false);
                 weeks[loc].cards[0].matches.push(match);
+                weeks[loc].numFights++;
                 console.log("Match Found");
             }
         }
