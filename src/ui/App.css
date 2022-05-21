@@ -22,6 +22,43 @@
     border: 1px solid rgb(145, 145, 145);
 }
 
+.fightCard {
+    position: relative;
+    margin: 5px;
+    height: 20%;
+    border: 1px solid rgb(145, 145, 145);
+}
+
+.fighter {
+    position: absolute;
+    font-weight: bold;
+}
+
+.one {
+    left: 5px;
+    text-align: left;
+}
+
+.two {
+    right: 5px;
+    text-align: right;
+}
+
+.vs {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.fightDesc {
+    position: absolute;
+    text-align: center;
+    left: 50%;
+    bottom: 0%;
+    transform: translate(-50%);
+
+}
+
 .weightSel {
     height: 25px;
     margin-left: 5px;

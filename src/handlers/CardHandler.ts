@@ -5,6 +5,8 @@ import Fight from "./Fight";
 export interface Match {
     fighterOne: Fighter;
     fighterTwo: Fighter;
+    title: boolean;
+    rounds: number;
     result?: number;
     weight: number;
     hype: number;
@@ -16,7 +18,6 @@ export interface Match {
 
 export interface Card {
     matches: Match[];
-    rating?: number;
     hype?: number;
     attendance?: number;
     revenue?: number;
@@ -72,6 +73,8 @@ class CardHandler {
                         matches.push({
                             fighterOne: fighterOne!,
                             fighterTwo: fighterTwo!,
+                            title: match.title,
+                            rounds: match.rounds,
                             weight: match.weight,
                             hype: match.hype,
                             matchId: match.matchId
@@ -105,6 +108,7 @@ class CardHandler {
 
     exec = () => {
         let len = this.weeks[0].cards.length;
+        
         for(let i = 0; i < len; i++){
             this.weeks[0].cards[i].matches.forEach((match) => {
                 Fight(match);
@@ -112,25 +116,33 @@ class CardHandler {
         }
     };
 
-    structureCard = () => {
+    structureCard = (tick: number) => {
+        let numCards = _.clamp(Math.floor(this.weeks[tick].numFights / 7), 1, 1000);
+        let fights: Match[] = _.orderBy(this.weeks[tick].cards[0].matches, "hype", "desc");
+        this.weeks[tick].cards[0].matches = [];
 
-        let numCards = Math.floor(this.weeks[4].numFights / 7);
-        let fights: Match[] = _.orderBy(this.weeks[4].cards[0].matches, "hype", "desc");
-        this.weeks[4].cards[0].matches = [];
-
-        console.log(fights);
+        console.log(numCards + " " + fights.length);
 
         for(let i = 0; i < numCards; i++){
-            this.weeks[4].cards[i] = {
+            this.weeks[tick].cards[i] = {
                 matches: []
-            }
+            };
         }
 
         for(let i = 0; i < this.weeks[4].numFights; i++){
-            this.weeks[4].cards[i % numCards].matches.push(fights[i]);
+            this.weeks[tick].cards[i % numCards].matches.push(fights[i]);
         }
+        
+        console.log(tick);
 
-        console.log(this.weeks[4]);
+        for(let i = 0; i < numCards; i++){
+            console.log(i);
+            let sum = 0;
+            this.weeks[tick].cards[i].matches.forEach(match => {
+                sum += match.hype;
+            });
+            this.weeks[tick].cards[i].hype = sum;
+        }
         
     };
 

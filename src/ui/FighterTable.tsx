@@ -79,7 +79,7 @@ export default function StickyHeadTable(props: propData) {
     for (let i = 0; i < numFighters; i++) {
         formatted[i] = {
             id: i,
-            name: props.fighters[i].name,
+            name: props.fighters[i].firstName + " " + props.fighters[i].lastName,
             age: props.fighters[i].age,
             overall: props.fighters[i].formatted.overall,
             record: props.fighters[i].formatted.record,
@@ -100,10 +100,10 @@ export default function StickyHeadTable(props: propData) {
               color: '#1a3e72',
             },
             '& .super-app.positive': {
-              backgroundColor: 'rgba(157, 255, 118, 0.49)',
+              backgroundColor: '#d4ffd9',
             },
             '& .super-app.negative': {
-              backgroundColor: '#d47483',
+              backgroundColor: '#ffd4d4',
             },
           }}>
             <DataGrid

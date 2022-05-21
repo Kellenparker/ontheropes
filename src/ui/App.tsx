@@ -4,7 +4,8 @@ import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@m
 import "./App.css";
 import FighterTable from "./FighterTable";
 import { Fighter } from "../handlers/FighterHandler";
-import League from "../handlers/League"
+import { Week } from "../handlers/CardHandler";
+import League from "../handlers/League";
 
 type myProps = {
     league: League;
@@ -12,6 +13,7 @@ type myProps = {
 type myState = {
     league: League;
     date: string;
+    week: Week[];
     roster: Fighter[][];
     weightClass: number;
 };
@@ -23,6 +25,7 @@ class App extends React.Component<myProps, myState> {
 		this.select = 0;
         this.state = {
             league: this.props.league,
+            week: this.props.league.getCards(),
             date: this.props.league.getDateStr(),
             roster: this.props.league.getRoster(),
             weightClass: 0,
@@ -44,7 +47,16 @@ class App extends React.Component<myProps, myState> {
     render() {
         return (
             <div className="App">
-                <div className="col"></div>
+                <div className="col">
+                    {this.state.week[0].cards.map((card, i) => (
+                        <div className="fightCard">
+                            <p className="fighter one">{card.matches[0].fighterOne.lastName}</p>
+                            <p className="vs">vs.</p>
+                            <p className="fighter two">{card.matches[0].fighterTwo.lastName}</p>
+                            <p className="fightDesc">{card.matches[0].title ? "12 Round Title Fight" : "10 Round Main Event"}</p>
+                        </div>
+                    ))}
+                </div>
                 <div className="col">
 				<FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} className="weightSel">
 					<InputLabel id="demo-simple-select-label">Weight Class</InputLabel>

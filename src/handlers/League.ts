@@ -48,14 +48,23 @@ class League {
             this.cards = new CardHandler(JSON.parse(obj), this.roster);
         }
 
+        MatchMaker(this.cards.weeks, this.roster, true);
+
+        console.log(this.cards.getWeek());
+
+        for(let i = 0; i < 4; i++){
+            console.log(this.cards.weeks[i]);
+            this.cards.structureCard(i);
+        }
+
     }
 
     advance = (amt: number) => {
         for (let i = 0; i < amt; i++) {
             this.cards.advance();
             this.roster.advance(this.time.tick);
-            MatchMaker(this.cards.weeks, this.roster);
-            this.cards.structureCard();
+            MatchMaker(this.cards.weeks, this.roster, false);
+            this.cards.structureCard(4);
             this.time.tick++;
             this.time.week++;
             if (this.time.week > 52) {
@@ -80,6 +89,8 @@ class League {
     getWeightClass = (index: number) => this.roster.getWeightClass(index);
 
     getRoster = () => this.roster.fighters;
+
+    getCards = () => this.cards.weeks;
 }
 
 export default League;

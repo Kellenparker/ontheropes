@@ -6,7 +6,8 @@ var human_names = require("human-names");
 
 export interface Fighter {
     id: string;
-    name: string;
+    firstName: string;
+    lastName: string;
     age: number;
     career: number;
     belts: number;
@@ -176,7 +177,8 @@ class FighterHandler {
         let motivation = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 50, 30, 0));
         let fighter: Fighter = {
             id: nanoid(9),
-            name: human_names.maleRandom() + " " + human_names.allRandom(),
+            firstName: human_names.maleRandom(),
+            lastName: human_names.allRandom(),
             age: age,
             career: Math.floor(randomTruncSkewNormal(Math.random(), [0, age - 16], age - 17, 2, 0)),
             belts: 0,
@@ -243,7 +245,8 @@ class FighterHandler {
         let motivation = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 50, 30, 0));
         let fighter: Fighter = {
             id: nanoid(9),
-            name: human_names.maleRandom() + " " + human_names.allRandom(),
+            firstName: human_names.maleRandom(),
+            lastName: human_names.allRandom(),
             age: age,
             career: Math.floor(randomTruncSkewNormal(Math.random(), [0, age - 16], age - 17, 2, 0)),
             belts: 0,
