@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@mui/material/Button";
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { Card, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import "./App.css";
 import FighterTable from "./FighterTable";
 import { Fighter } from "../handlers/FighterHandler";
@@ -48,13 +48,15 @@ class App extends React.Component<myProps, myState> {
         return (
             <div className="App">
                 <div className="col">
+                    <p style={{textAlign: "center"}}>Cards This Week</p>
                     {this.state.week[0].cards.map((card, i) => (
-                        <div className="fightCard">
+                        i >= 4 ? <div key={"null" + i}></div> :
+                        <Card className={"fightCard"} key={"card" + i}>
                             <p className="fighter one">{card.matches[0].fighterOne.lastName}</p>
                             <p className="vs">vs.</p>
                             <p className="fighter two">{card.matches[0].fighterTwo.lastName}</p>
                             <p className="fightDesc">{card.matches[0].title ? "12 Round Title Fight" : "10 Round Main Event"}</p>
-                        </div>
+                        </Card>
                     ))}
                 </div>
                 <div className="col">
@@ -85,6 +87,9 @@ class App extends React.Component<myProps, myState> {
                             }
                         />
                     </div>
+                </div>
+                <div className="col">
+                    <p style={{textAlign: "center"}}>Results</p>
                 </div>
                 <p id="dayStr">{this.state.date}</p>
                 <Button

@@ -121,22 +121,17 @@ class CardHandler {
         let fights: Match[] = _.orderBy(this.weeks[tick].cards[0].matches, "hype", "desc");
         this.weeks[tick].cards[0].matches = [];
 
-        console.log(numCards + " " + fights.length);
-
         for(let i = 0; i < numCards; i++){
             this.weeks[tick].cards[i] = {
                 matches: []
             };
         }
 
-        for(let i = 0; i < this.weeks[4].numFights; i++){
+        for(let i = 0; i < fights.length; i++){
             this.weeks[tick].cards[i % numCards].matches.push(fights[i]);
         }
-        
-        console.log(tick);
 
         for(let i = 0; i < numCards; i++){
-            console.log(i);
             let sum = 0;
             this.weeks[tick].cards[i].matches.forEach(match => {
                 sum += match.hype;

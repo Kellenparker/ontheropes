@@ -42,21 +42,17 @@ class League {
         if(window.localStorage.getItem('cards') === null){
             this.cards = new CardHandler(null);
             window.localStorage.setItem('cards', JSON.stringify(this.cards));
+
+            MatchMaker(this.cards.weeks, this.roster, true);
+
+            for(let i = 0; i < 4; i++){
+                this.cards.structureCard(i);
+            }
         }
         else{
             let obj = window.localStorage.getItem('cards') as string;
             this.cards = new CardHandler(JSON.parse(obj), this.roster);
         }
-
-        MatchMaker(this.cards.weeks, this.roster, true);
-
-        console.log(this.cards.getWeek());
-
-        for(let i = 0; i < 4; i++){
-            console.log(this.cards.weeks[i]);
-            this.cards.structureCard(i);
-        }
-
     }
 
     advance = (amt: number) => {

@@ -1,9 +1,9 @@
 .App {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    grid-gap: 20px;
-    padding-left: 200px;
-    padding-right: 200px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    grid-gap: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 .App-header {
@@ -19,14 +19,13 @@
 
 .col {
     padding: 3px;
-    border: 1px solid rgb(145, 145, 145);
 }
 
 .fightCard {
     position: relative;
     margin: 5px;
     height: 20%;
-    border: 1px solid rgb(145, 145, 145);
+    border: 1px solid rgb(222, 222, 222);
 }
 
 .fighter {
@@ -54,9 +53,8 @@
     position: absolute;
     text-align: center;
     left: 50%;
-    bottom: 0%;
-    transform: translate(-50%);
-
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .weightSel {
