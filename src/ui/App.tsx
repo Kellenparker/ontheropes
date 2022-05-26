@@ -4,7 +4,7 @@ import { Card, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } fr
 import "./App.css";
 import FighterTable from "./FighterTable";
 import { Fighter } from "../handlers/FighterHandler";
-import { Week } from "../handlers/CardHandler";
+import { Week, Result } from "../handlers/CardHandler";
 import League from "../handlers/League";
 
 type myProps = {
@@ -14,6 +14,7 @@ type myState = {
     league: League;
     date: string;
     week: Week[];
+    results: Result[];
     roster: Fighter[][];
     weightClass: number;
 };
@@ -26,6 +27,7 @@ class App extends React.Component<myProps, myState> {
         this.state = {
             league: this.props.league,
             week: this.props.league.getCards(),
+            results: this.props.league.getResults(),
             date: this.props.league.getDateStr(),
             roster: this.props.league.getRoster(),
             weightClass: 0,
@@ -42,6 +44,7 @@ class App extends React.Component<myProps, myState> {
         this.state.league.advance(n);
         this.setState({
             date: this.state.league.getDateStr(),
+            results: this.state.league.getResults()
         });
     };
     render() {
@@ -49,6 +52,7 @@ class App extends React.Component<myProps, myState> {
             <div className="App">
                 <div className="col">
                     <p style={{textAlign: "center"}}>Cards This Week</p>
+                    <hr className="line"></hr>
                     {this.state.week[0].cards.map((card, i) => (
                         i >= 4 ? <div key={"null" + i}></div> :
                         <Card className={"fightCard"} key={"card" + i}>
@@ -89,7 +93,17 @@ class App extends React.Component<myProps, myState> {
                     </div>
                 </div>
                 <div className="col">
-                    <p style={{textAlign: "center"}}>Results</p>
+                    <p style={{textAlign: "center"}}>Last Week's Results</p>
+                    <hr className="line"></hr>
+                    {this.state.results.map((result, i) => (
+                        i >= 4 ? <div key={"null" + i}></div> :
+                        <Card className={"resultCard"} key={"result" + i}>
+                            <p className="fighter one">{result.fighterOne.lastName}</p>
+                            <p className="vs">Defeats</p>
+                            <p className="fighter two">{result.fighterTwo.lastName}</p>
+                            <p className="fightDesc">{result.title ? "12 Round Title Fight" : "10 Round Main Event"}</p>
+                        </Card>
+                    ))}
                 </div>
                 <p id="dayStr">{this.state.date}</p>
                 <Button

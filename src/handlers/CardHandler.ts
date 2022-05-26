@@ -29,18 +29,32 @@ export interface Week {
     numFights: number;
 }
 
+export interface Result {
+    fighterOne: Fighter;
+    fighterTwo: Fighter;
+    matchId: {
+        fone: string;
+        ftwo: string;
+    };
+    weight: number;
+    title: boolean;
+}
+
 interface ImportCard {
     weeks: Week[];
+    results: Result[];
 }
 
 class CardHandler {
     weeks: Week[];
+    results: Result[];
     private cardBuffer = 15;
     private tick;
 
     constructor(localCards: ImportCard | null, roster: FighterHandler | null = null) {
         this.tick = 0;
         if (localCards === null) {
+            this.results = [];
             this.weeks = [];
             for (let i = 0; i < this.cardBuffer; i++) {
                 this.weeks[i] = {
@@ -86,6 +100,21 @@ class CardHandler {
                     };
                 }
             }
+
+            this.results = [];
+            localCards.results.forEach(result => {
+                let fighterOne = _.find(roster?.fighters[result.weight], { id: result.matchId.fone });
+                let fighterTwo = _.find(roster?.fighters[result.weight], { id: result.matchId.ftwo });
+
+                this.results.push({
+                    fighterOne: fighterOne!,
+                    fighterTwo: fighterTwo!,
+                    matchId: result.matchId,
+                    weight: result.weight,
+                    title: result.title
+                })
+            });
+
         }
 
         console.log(this.weeks);
@@ -109,9 +138,11 @@ class CardHandler {
     exec = () => {
         let len = this.weeks[0].cards.length;
         
+        this.results = [];
         for(let i = 0; i < len; i++){
-            this.weeks[0].cards[i].matches.forEach((match) => {
-                Fight(match);
+            this.weeks[0].cards[i].matches.forEach((match, j) => {
+                let result: Result = Fight(match);
+                if(j === 0) this.results.push(result);
             });
         }
     };

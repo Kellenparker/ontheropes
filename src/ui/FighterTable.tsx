@@ -93,7 +93,7 @@ export default function StickyHeadTable(props: propData) {
     return (
         <Box sx={{
             marginTop: 2.5,
-            height: 450,
+            height: 500,
             width: 1,
             '& .super-app-theme--cell': {
               backgroundColor: 'rgba(224, 183, 60, 0.55)',

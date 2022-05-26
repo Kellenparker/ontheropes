@@ -87,6 +87,8 @@ class League {
     getRoster = () => this.roster.fighters;
 
     getCards = () => this.cards.weeks;
+
+    getResults = () => this.cards.results;
 }
 
 export default League;

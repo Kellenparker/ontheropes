@@ -1,10 +1,11 @@
 import _ from "lodash";
-import { Match } from "./CardHandler";
+import { Match, Result } from "./CardHandler";
 
-function Fight(match: Match){
+function Fight(match: Match): Result{
     
     let dif = (match.fighterOne.overall - match.fighterTwo.overall) / 5;
     var winner;
+    let result: Result;
 
     if(_.random(-25, 25, true) > dif) winner = 0;
     else winner = 1;
@@ -34,6 +35,17 @@ function Fight(match: Match){
 
         match.fighterOne.hasFight = false;
         match.fighterTwo.hasFight = false;
+
+        result = {
+            fighterOne: match.fighterOne,
+            fighterTwo: match.fighterTwo,
+            matchId: {
+                fone: match.fighterOne.id,
+                ftwo: match.fighterTwo.id
+            },
+            weight: match.weight,
+            title: match.title
+        }
     }
     else {
         if(match.fighterOne.belts > 0){
@@ -61,7 +73,19 @@ function Fight(match: Match){
         match.fighterOne.hasFight = false;
         match.fighterTwo.hasFight = false;
 
+        result = {
+            fighterOne: match.fighterTwo,
+            fighterTwo: match.fighterOne,
+            matchId: {
+                fone: match.fighterTwo.id,
+                ftwo: match.fighterOne.id
+            },
+            weight: match.weight,
+            title: match.title
+        }
     }
+
+    return result;
 
 }
 
