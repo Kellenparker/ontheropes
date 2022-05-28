@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './styles/Header.css'
 
-export default function Header() {
+const Header = () => {
 	return (
 		<div className="header">
-			<h1 className="title">On the Ropes</h1>
+			<Link to="/" className="title">On the Ropes</Link>
 			<div>
 				<button className="headButton">Test</button>
 				<button className="headButton">Test2</button>
@@ -14,4 +15,6 @@ export default function Header() {
 		</div>
 	);
 }
+
+export default Header;
 

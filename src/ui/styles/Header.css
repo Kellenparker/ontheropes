@@ -15,6 +15,9 @@
 .title {
     font-size: 40px;
     font-style: italic;
+    text-decoration: none;
+    color: black;
+    font-weight: bolder;
     margin-top: 3.4vh;
     margin-bottom: .5vh;
     left: 80px;

@@ -5,6 +5,8 @@ import League from "../handlers/League";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import Header from "./Header";
+import FighterPage from "./FighterPage";
+import { Fighter } from "../handlers/FighterHandler";
 
 type myProps = {
     league: League;
@@ -37,10 +39,11 @@ class App extends React.Component<myProps, myState> {
     render() {
         return (
             <div>
-                <Header/>
                 <BrowserRouter>
+                    <Header/>
                     <Routes>
                         <Route path="/" element={<Home league={this.state.league} ref={this.homeRef as RefObject<Home>}/>}/>
+                        <Route path="/f/:id" element={<FighterPage fighters={this.state.league.roster.fighters as Fighter[][]}/>}/>
                         <Route path="/home" element={<Home league={this.state.league} ref={this.homeRef as RefObject<Home>}/>}/>
                     </Routes>
                 </BrowserRouter>
