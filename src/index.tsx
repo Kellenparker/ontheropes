@@ -10,13 +10,6 @@ const league = new League(2022);
 
 ReactDOM.render(
 	<React.StrictMode>
-		<Header />
-	</React.StrictMode>,
-	document.getElementById('head-container')
-);
-
-ReactDOM.render(
-	<React.StrictMode>
 		<App league={league} />
 	</React.StrictMode>,
 	document.getElementById('site-content')
