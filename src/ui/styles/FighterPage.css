@@ -1,5 +1,27 @@
 
-
 .name {
     text-align: center;
+}
+
+.fighterPage {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr);
+    grid-gap: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.fighterPage-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.col {
+    padding: 3px;
 }

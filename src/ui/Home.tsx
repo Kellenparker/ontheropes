@@ -44,7 +44,7 @@ class Home extends React.Component<myProps, myState> {
     }
     render() {
         return (
-            <div className="App">
+            <div className="app">
                 <div className="col">
                     <p style={{textAlign: "center"}}>Cards This Week</p>
                     <hr className="line"></hr>

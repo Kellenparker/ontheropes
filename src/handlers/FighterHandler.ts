@@ -37,6 +37,7 @@ export interface Fighter {
     overall: number;
     changes: Changes;
     formatted: FormattedFighter;
+    results: FighterResults[];
 }
 
 export interface Changes {
@@ -55,6 +56,16 @@ export interface FormattedFighter {
     record: string;
     overall: string;
     streak: string;
+}
+
+export interface FighterResults {
+    opponentId: string;
+    opponent?: Fighter;
+    win: boolean;
+    finish?: {
+        round: number;
+        style: number; //0: KO, 1: TKO, 2: RTD, 3: DSQ
+    }
 }
 
 interface ImportRoster {
@@ -208,6 +219,7 @@ class FighterHandler {
             overall: 0,
             changes: {} as Changes,
             formatted: {} as FormattedFighter,
+            results: []
         };
 
         fighter.overall = this.getOverall(fighter);
@@ -276,6 +288,7 @@ class FighterHandler {
             overall: 0,
             changes: {} as Changes,
             formatted: {} as FormattedFighter,
+            results: []
         };
 
         fighter.overall = this.getOverall(fighter);
