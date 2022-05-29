@@ -40,7 +40,7 @@ class League {
 
         // Check if cards is already saved in browser
         if(window.localStorage.getItem('cards') === null){
-            this.cards = new CardHandler(null);
+            this.cards = new CardHandler(null, null);
             window.localStorage.setItem('cards', JSON.stringify(this.cards));
 
             MatchMaker(this.cards.weeks, this.roster, true);
@@ -50,8 +50,9 @@ class League {
             }
         }
         else{
-            let obj = window.localStorage.getItem('cards') as string;
-            this.cards = new CardHandler(JSON.parse(obj), this.roster);
+            let cards = window.localStorage.getItem('cards') as string;
+            let result = window.localStorage.getItem('result') as string;
+            this.cards = new CardHandler(JSON.parse(cards), JSON.parse(result), this.roster);
         }
     }
 

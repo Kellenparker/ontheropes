@@ -33,7 +33,9 @@ class App extends React.Component<myProps, myState> {
         this.setState({
             date: this.state.league.getDateStr()
         });
-        this.homeRef.current!.getResults();
+        if(this.homeRef.current){
+            this.homeRef.current.getResults();
+        }
     };
 
     render() {

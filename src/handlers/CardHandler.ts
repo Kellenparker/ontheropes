@@ -51,7 +51,7 @@ class CardHandler {
     private cardBuffer = 15;
     private tick;
 
-    constructor(localCards: ImportCard | null, roster: FighterHandler | null = null) {
+    constructor(localCards: ImportCard | null, result: Result[] | null, roster: FighterHandler | null = null) {
         this.tick = 0;
         if (localCards === null) {
             this.results = [];
@@ -67,6 +67,7 @@ class CardHandler {
                 };
             }
         } else {
+            this.results = result!;
             this.weeks = [];
             for (let i = 0; i < this.cardBuffer; i++) {
                 this.weeks[i] = {

@@ -46,6 +46,28 @@ function Fight(match: Match): Result{
             weight: match.weight,
             title: match.title
         }
+        match.fighterOne.results.push({
+            opponent: {
+                name: match.fighterTwo.firstName + " " + match.fighterTwo.lastName,
+                id: match.fighterTwo.id,
+                overall: match.fighterTwo.overall,
+                record: match.fighterTwo.formatted.record,
+                belts: match.fighterTwo.belts,
+            },
+            win: true,
+            title: match.title
+        });
+        match.fighterTwo.results.push({
+            opponent: {
+                name: match.fighterOne.firstName + " " + match.fighterOne.lastName,
+                id: match.fighterOne.id,
+                overall: match.fighterOne.overall,
+                record: match.fighterOne.formatted.record,
+                belts: match.fighterOne.belts,
+            },
+            win: false,
+            title: match.title
+        });
     }
     else {
         if(match.fighterOne.belts > 0){
@@ -83,6 +105,28 @@ function Fight(match: Match): Result{
             weight: match.weight,
             title: match.title
         }
+        match.fighterOne.results.push({
+            opponent: {
+                name: match.fighterTwo.firstName + " " + match.fighterTwo.lastName,
+                id: match.fighterTwo.id,
+                overall: match.fighterTwo.overall,
+                record: match.fighterTwo.formatted.record,
+                belts: match.fighterTwo.belts,
+            },
+            win: false,
+            title: match.title
+        });
+        match.fighterTwo.results.push({
+            opponent: {
+                name: match.fighterOne.firstName + " " + match.fighterOne.lastName,
+                id: match.fighterOne.id,
+                overall: match.fighterOne.overall,
+                record: match.fighterOne.formatted.record,
+                belts: match.fighterOne.belts,
+            },
+            win: true,
+            title: match.title
+        });
     }
 
     return result;

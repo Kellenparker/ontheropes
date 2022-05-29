@@ -59,13 +59,19 @@ export interface FormattedFighter {
 }
 
 export interface FighterResults {
-    opponentId: string;
-    opponent?: Fighter;
+    opponent: {
+        name: string;
+        id: string;
+        overall: number;
+        record: string;
+        belts: number;
+    }
     win: boolean;
     finish?: {
         round: number;
         style: number; //0: KO, 1: TKO, 2: RTD, 3: DSQ
     }
+    title: boolean;
 }
 
 interface ImportRoster {
@@ -142,6 +148,12 @@ class FighterHandler {
                 this.fighters[i][j] = this.retire(this.fighters[i][j]);
             }
     };
+
+    getFighter = (id: number) => {
+        let ret: Fighter | undefined;
+        for (let i = 0; i < wcNum && ret === undefined; i++) ret = _.find(this.fighters[i], { id: id }) as Fighter;
+        return ret;
+    }
 
     getRoster = () => this.fighters;
 
