@@ -1,8 +1,9 @@
 import _ from "lodash";
 import { Match, Week } from "./CardHandler";
 import FighterHandler from "./FighterHandler";
+import Time from "./Time";
 
-function MatchMaker(weeks: Week[], roster: FighterHandler, init: boolean): void {
+function MatchMaker(weeks: Week[], roster: FighterHandler,  time: Time, init: boolean): void {
     let fighters = roster.fighters;
     let wcNum: number = fighters.length;
     let wcSize: number = fighters[0].length;
@@ -101,11 +102,13 @@ function MatchMaker(weeks: Week[], roster: FighterHandler, init: boolean): void 
             if (_.random(0, 1, true) < candidate && candInd !== -1) {
                 fighters[i][j].hasFight = true;
                 fighters[i][candInd].hasFight = true;
-                let hype = fighters[i][j].overall + fighters[i][candInd].overall + (fighters[i][j].belts > 1 ? 100 : 0 ) + (fighters[i][candInd].belts > 1 ? 100 : 0 )
-                let titleFight = fighters[i][j].belts > 1 || fighters[i][candInd].belts > 1 ? true : false
+                let hype = fighters[i][j].overall + fighters[i][candInd].overall + (fighters[i][j].belts > 1 ? 100 : 0 ) + (fighters[i][candInd].belts > 1 ? 100 : 0 );
+                let titleFight = fighters[i][j].belts > 1 || fighters[i][candInd].belts > 1 ? true : false;
+                let loc = init ? _.random(0, 8, false) : _.random(4, 14, false);
                 let match: Match = {
                     fighterOne: fighters[i][j],
                     fighterTwo: fighters[i][candInd],
+                    dateStr: time.getFutureDate(loc),
                     title: titleFight,
                     rounds: titleFight ? 12 : 10,
                     weight: fighters[i][j].weightClass,
@@ -115,7 +118,6 @@ function MatchMaker(weeks: Week[], roster: FighterHandler, init: boolean): void 
                         ftwo: fighters[i][candInd].id,
                     }
                 };
-                let loc = init ? _.random(0, 8, false) : _.random(4, 14, false);
                 weeks[loc].cards[0].matches.push(match);
                 weeks[loc].numFights++;
                 console.log("Match Found");

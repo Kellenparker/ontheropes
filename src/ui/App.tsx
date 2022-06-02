@@ -23,7 +23,7 @@ class App extends React.Component<myProps, myState> {
         super(props);
         this.state = {
             league: this.props.league,
-            date: this.props.league.getDateStr()
+            date: this.props.league.time.getDateStr()
         };
         this.advance = this.advance.bind(this);
     }
@@ -31,7 +31,7 @@ class App extends React.Component<myProps, myState> {
     advance = (n: number) => {
         this.state.league.advance(n);
         this.setState({
-            date: this.state.league.getDateStr()
+            date: this.state.league.time.getDateStr()
         });
         if(this.homeRef.current){
             this.homeRef.current.getResults();

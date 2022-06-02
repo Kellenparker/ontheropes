@@ -30,7 +30,7 @@ const FighterPage = (props: { fighters: Fighter[][] }) => {
     let fighter: Fighter | undefined;
     let len = props.fighters.length;
     for (let i = 0; i < len && fighter === undefined; i++) fighter = _.find(props.fighters[i], { id: id });
-
+    console.log(fighter!.results);
     return (
         <div>
             <h3 className="name">{fighter!.firstName + " " + fighter!.lastName}</h3>

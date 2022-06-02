@@ -6,6 +6,15 @@ import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
 
 const columns: GridColDef[] = [
+    {
+        field: "date",
+        headerName: "Date",
+        type: "string",
+        minWidth: 120,
+        align: "right",
+        editable: false,
+        flex: 1,
+    },
     { 
         field: "opponent", 
         headerName: "Name", 
@@ -67,7 +76,8 @@ const columns: GridColDef[] = [
 ];
 
 interface Data {
-    id: string;
+    id: number;
+    date: string;
     opponent: string;
     overall: number;
     win: boolean;
@@ -87,7 +97,8 @@ export default function StickyHeadTable(props: propData) {
         let formatted = new Array<Data>(numResults);
         for (let i = 0; i < numResults; i++) {
             formatted[i] = {
-                id: props.fighter.results[i].opponent.id,
+                id: i,
+                date: props.fighter.results[i].dateStr,
                 opponent: props.fighter.results[i].opponent.name,
                 overall: props.fighter.results[i].opponent.overall,
                 record: props.fighter.results[i].opponent.record,
@@ -96,6 +107,7 @@ export default function StickyHeadTable(props: propData) {
                 title: props.fighter.results[i].title,
             };
         }
+        console.log(formatted);
 
         const rows = formatted;
 
@@ -124,9 +136,7 @@ export default function StickyHeadTable(props: propData) {
                     rowsPerPageOptions={[]}
                     rowHeight={35}
                     initialState={{
-                        sorting: {
-                            sortModel: [{ field: "overall", sort: "desc" }],
-                        },
+                        
                     }}
                     disableSelectionOnClick
                     disableColumnSelector

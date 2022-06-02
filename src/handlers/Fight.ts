@@ -46,7 +46,7 @@ function Fight(match: Match): Result{
             weight: match.weight,
             title: match.title
         }
-        match.fighterOne.results.push({
+        match.fighterOne.results.unshift({
             opponent: {
                 name: match.fighterTwo.firstName + " " + match.fighterTwo.lastName,
                 id: match.fighterTwo.id,
@@ -54,10 +54,11 @@ function Fight(match: Match): Result{
                 record: match.fighterTwo.formatted.record,
                 belts: match.fighterTwo.belts,
             },
+            dateStr: match.dateStr,
             win: true,
             title: match.title
         });
-        match.fighterTwo.results.push({
+        match.fighterTwo.results.unshift({
             opponent: {
                 name: match.fighterOne.firstName + " " + match.fighterOne.lastName,
                 id: match.fighterOne.id,
@@ -65,6 +66,7 @@ function Fight(match: Match): Result{
                 record: match.fighterOne.formatted.record,
                 belts: match.fighterOne.belts,
             },
+            dateStr: match.dateStr,
             win: false,
             title: match.title
         });
@@ -105,7 +107,7 @@ function Fight(match: Match): Result{
             weight: match.weight,
             title: match.title
         }
-        match.fighterOne.results.push({
+        match.fighterOne.results.unshift({
             opponent: {
                 name: match.fighterTwo.firstName + " " + match.fighterTwo.lastName,
                 id: match.fighterTwo.id,
@@ -113,10 +115,11 @@ function Fight(match: Match): Result{
                 record: match.fighterTwo.formatted.record,
                 belts: match.fighterTwo.belts,
             },
+            dateStr: match.dateStr,
             win: false,
             title: match.title
         });
-        match.fighterTwo.results.push({
+        match.fighterTwo.results.unshift({
             opponent: {
                 name: match.fighterOne.firstName + " " + match.fighterOne.lastName,
                 id: match.fighterOne.id,
@@ -124,6 +127,7 @@ function Fight(match: Match): Result{
                 record: match.fighterOne.formatted.record,
                 belts: match.fighterOne.belts,
             },
+            dateStr: match.dateStr,
             win: true,
             title: match.title
         });

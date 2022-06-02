@@ -66,6 +66,7 @@ export interface FighterResults {
         record: string;
         belts: number;
     }
+    dateStr: string;
     win: boolean;
     finish?: {
         round: number;

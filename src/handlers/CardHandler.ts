@@ -1,10 +1,12 @@
 import FighterHandler, { Fighter } from "./FighterHandler";
 import * as _ from "lodash";
 import Fight from "./Fight";
+import Time from "./Time";
 
 export interface Match {
     fighterOne: Fighter;
     fighterTwo: Fighter;
+    dateStr: string;
     title: boolean;
     rounds: number;
     result?: number;
@@ -25,6 +27,7 @@ export interface Card {
 
 export interface Week {
     date: number;
+    dateStr: string;
     cards: Card[];
     numFights: number;
 }
@@ -47,18 +50,21 @@ interface ImportCard {
 
 class CardHandler {
     weeks: Week[];
+    time: Time;
     results: Result[];
     private cardBuffer = 15;
     private tick;
 
-    constructor(localCards: ImportCard | null, result: Result[] | null, roster: FighterHandler | null = null) {
+    constructor(time: Time, localCards: ImportCard | null = null, result: Result[] | null = null, roster: FighterHandler | null = null) {
         this.tick = 0;
+        this.time = time;
         if (localCards === null) {
             this.results = [];
             this.weeks = [];
             for (let i = 0; i < this.cardBuffer; i++) {
                 this.weeks[i] = {
                     date: i,
+                    dateStr: this.time.getFutureDate(i),
                     cards: [],
                     numFights: 0
                 };
@@ -72,6 +78,7 @@ class CardHandler {
             for (let i = 0; i < this.cardBuffer; i++) {
                 this.weeks[i] = {
                     date: localCards.weeks[i].date,
+                    dateStr: localCards.weeks[i].dateStr,
                     numFights: localCards.weeks[i].numFights,
                     cards: []
                 };
@@ -89,6 +96,7 @@ class CardHandler {
                             fighterOne: fighterOne!,
                             fighterTwo: fighterTwo!,
                             title: match.title,
+                            dateStr: match.dateStr,
                             rounds: match.rounds,
                             weight: match.weight,
                             hype: match.hype,
@@ -126,6 +134,7 @@ class CardHandler {
         this.weeks.shift();
         this.weeks[this.cardBuffer - 1] = {
             date: this.tick + this.cardBuffer,
+            dateStr: this.time.getFutureDate(this.cardBuffer),
             cards: [],
             numFights: 0
         };
