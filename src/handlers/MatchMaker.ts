@@ -101,7 +101,9 @@ function MatchMaker(weeks: Week[], roster: FighterHandler,  time: Time, init: bo
 
             if (_.random(0, 1, true) < candidate && candInd !== -1) {
                 fighters[i][j].hasFight = true;
+                fighters[i][j].opponentId = fighters[i][candInd].id;
                 fighters[i][candInd].hasFight = true;
+                fighters[i][candInd].opponentId = fighters[i][j].id;
                 let hype = fighters[i][j].overall + fighters[i][candInd].overall + (fighters[i][j].belts > 1 ? 100 : 0 ) + (fighters[i][candInd].belts > 1 ? 100 : 0 );
                 let titleFight = fighters[i][j].belts > 1 || fighters[i][candInd].belts > 1 ? true : false;
                 let loc = init ? _.random(0, 8, false) : _.random(4, 14, false);

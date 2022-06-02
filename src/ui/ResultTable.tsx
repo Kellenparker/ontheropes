@@ -107,7 +107,6 @@ export default function StickyHeadTable(props: propData) {
                 title: props.fighter.results[i].title,
             };
         }
-        console.log(formatted);
 
         const rows = formatted;
 

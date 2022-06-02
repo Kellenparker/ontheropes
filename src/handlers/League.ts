@@ -75,7 +75,6 @@ class League {
         window.localStorage.setItem('cards', JSON.stringify(this.cards));
 
         console.log(this.roster.fighters);
-
     };
 
     getWeightClass = (index: number) => this.roster.getWeightClass(index);

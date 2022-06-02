@@ -30,6 +30,7 @@ export interface Fighter {
     draws: number;
     streak: number;
     hasFight: boolean;
+    opponentId?: string;
     earnings: number;
     success: number;
     popularity: number;
@@ -65,18 +66,19 @@ export interface FighterResults {
         overall: number;
         record: string;
         belts: number;
-    }
+    };
     dateStr: string;
     win: boolean;
     finish?: {
         round: number;
         style: number; //0: KO, 1: TKO, 2: RTD, 3: DSQ
-    }
+    };
     title: boolean;
 }
 
 interface ImportRoster {
     fighters: Fighter[][];
+    retired: Fighter[];
 }
 
 const wcNum = 9;
@@ -86,11 +88,13 @@ const numBelts = 3;
 class FighterHandler {
     fighters: Fighter[][];
     champions: (Fighter | null)[][];
+    retired: Fighter[];
 
     constructor(localRoster: ImportRoster | null) {
         this.champions = [];
         if (localRoster === null) {
             this.fighters = [];
+            this.retired = [];
             for (let i = 0; i < wcNum; i++) {
                 this.fighters[i] = [];
                 for (let j = 0; j < wcSize; j++) {
@@ -101,6 +105,7 @@ class FighterHandler {
             this.setChamps();
         } else {
             this.fighters = localRoster.fighters;
+            this.retired = localRoster.retired;
             console.log(this.fighters);
             this.getChamps();
         }
@@ -154,7 +159,7 @@ class FighterHandler {
         let ret: Fighter | undefined;
         for (let i = 0; i < wcNum && ret === undefined; i++) ret = _.find(this.fighters[i], { id: id }) as Fighter;
         return ret;
-    }
+    };
 
     getRoster = () => this.fighters;
 
@@ -232,7 +237,7 @@ class FighterHandler {
             overall: 0,
             changes: {} as Changes,
             formatted: {} as FormattedFighter,
-            results: []
+            results: [],
         };
 
         fighter.overall = this.getOverall(fighter);
@@ -301,7 +306,7 @@ class FighterHandler {
             overall: 0,
             changes: {} as Changes,
             formatted: {} as FormattedFighter,
-            results: []
+            results: [],
         };
 
         fighter.overall = this.getOverall(fighter);
@@ -352,8 +357,8 @@ class FighterHandler {
 
         fighter.formatted.record = fighter.wins + "-" + fighter.losses + "-" + fighter.draws;
 
-        if(fighter.streak > 0) fighter.formatted.streak = "+" + fighter.streak;
-        else if(fighter.streak < 0) fighter.formatted.streak = fighter.streak.toString();
+        if (fighter.streak > 0) fighter.formatted.streak = "+" + fighter.streak;
+        else if (fighter.streak < 0) fighter.formatted.streak = fighter.streak.toString();
 
         if (setType) {
             fighter.type = 4;
@@ -384,11 +389,13 @@ class FighterHandler {
                     if (_.isEqual(this.champions[fighter.weightClass][i], fighter))
                         this.champions[fighter.weightClass][i] = null;
 
-            console.log("replaced: ");
-            console.log(fighter);
+            this.retired.push(fighter);
+            if (fighter.hasFight) {
+                let opponent: Fighter = _.find(this.fighters[fighter.weightClass], { id: fighter.opponentId })!;
+                opponent.hasFight = false;
+                opponent.opponentId = undefined;
+            }
             let replacement = this.newFighter(fighter.weightClass);
-            console.log("with ");
-            console.log(fighter);
             return replacement;
         }
         return fighter;

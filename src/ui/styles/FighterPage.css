@@ -1,6 +1,12 @@
 
 .name {
     text-align: center;
+    margin-bottom: 0;
+}
+
+.retired {
+    text-align: center;
+    font-style: italic;
 }
 
 .fighterPage {

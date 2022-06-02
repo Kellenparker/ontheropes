@@ -25,15 +25,20 @@ const getWeightClass = (num: number): string => {
     return weightClasses[num];
 };
 
-const FighterPage = (props: { fighters: Fighter[][] }) => {
+const FighterPage = (props: { fighters: Fighter[][], retired: Fighter[] }) => {
     const { id } = useParams();
     let fighter: Fighter | undefined;
+    let retired: boolean = false;
     let len = props.fighters.length;
     for (let i = 0; i < len && fighter === undefined; i++) fighter = _.find(props.fighters[i], { id: id });
-    console.log(fighter!.results);
+    if(fighter === undefined){
+        fighter = _.find(props.retired, { id: id });
+        retired = true;
+    }
     return (
         <div>
             <h3 className="name">{fighter!.firstName + " " + fighter!.lastName}</h3>
+            {retired && (<p className="retired">Retired</p>)}
             <div className="fighterPage">
                 <div className="col">
                     <p style={{textAlign: "center"}}>Bio</p>

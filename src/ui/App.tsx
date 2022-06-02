@@ -23,7 +23,7 @@ class App extends React.Component<myProps, myState> {
         super(props);
         this.state = {
             league: this.props.league,
-            date: this.props.league.time.getDateStr()
+            date: this.props.league.time.getDateStr(),
         };
         this.advance = this.advance.bind(this);
     }
@@ -31,9 +31,9 @@ class App extends React.Component<myProps, myState> {
     advance = (n: number) => {
         this.state.league.advance(n);
         this.setState({
-            date: this.state.league.time.getDateStr()
+            date: this.state.league.time.getDateStr(),
         });
-        if(this.homeRef.current){
+        if (this.homeRef.current) {
             this.homeRef.current.getResults();
         }
     };
@@ -42,19 +42,29 @@ class App extends React.Component<myProps, myState> {
         return (
             <div>
                 <BrowserRouter>
-                    <Header/>
+                    <Header />
                     <Routes>
-                        <Route path="/" element={<Home league={this.state.league} ref={this.homeRef as RefObject<Home>}/>}/>
-                        <Route path="/f/:id" element={<FighterPage fighters={this.state.league.roster.fighters as Fighter[][]}/>}/>
-                        <Route path="/home" element={<Home league={this.state.league} ref={this.homeRef as RefObject<Home>}/>}/>
+                        <Route
+                            path="/"
+                            element={<Home league={this.state.league} ref={this.homeRef as RefObject<Home>} />}
+                        />
+                        <Route
+                            path="/f/:id"
+                            element={
+                                <FighterPage
+                                    fighters={this.state.league.roster.fighters as Fighter[][]}
+                                    retired={this.state.league.roster.retired as Fighter[]}
+                                />
+                            }
+                        />
+                        <Route
+                            path="/home"
+                            element={<Home league={this.state.league} ref={this.homeRef as RefObject<Home>} />}
+                        />
                     </Routes>
                 </BrowserRouter>
                 <p id="dayStr">{this.state.date}</p>
-                <Button
-                    id="advBtn"
-                    variant="contained"
-                    onClick={(e) => this.advance(1)}
-                >
+                <Button id="advBtn" variant="contained" onClick={(e) => this.advance(1)}>
                     Advance
                 </Button>
             </div>
