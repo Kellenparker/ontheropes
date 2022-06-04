@@ -11,6 +11,8 @@ function MatchMaker(weeks: Week[], roster: FighterHandler,  time: Time, init: bo
     for (let i = 0; i < wcNum; i++) {
         for (let j = 0; j < wcSize; j++) {
             if (fighters[i][j].hasFight) continue;
+            if (fighters[i][j].retired === 1) continue;
+            if (fighters[i][j].timeOff > 0) continue;
             let candidate: number = 0.0;
             let candInd: number = -1;
             let score: number = 0.0;
@@ -21,6 +23,8 @@ function MatchMaker(weeks: Week[], roster: FighterHandler,  time: Time, init: bo
                 for (let k = 0; k < wcSize; k++) {
                     if (j === k) continue;
                     if (fighters[i][k].hasFight) continue;
+                    if (fighters[i][k].retired === 1) continue;
+                    if (fighters[i][k].timeOff > 0) continue;
                     if (fighters[i][j].type === 3) continue;
 
                     score =
@@ -40,6 +44,8 @@ function MatchMaker(weeks: Week[], roster: FighterHandler,  time: Time, init: bo
                     if (fighters[i][k].type !== 3) continue;
                     if (j === k) continue;
                     if (fighters[i][k].hasFight) continue;
+                    if (fighters[i][k].retired === 1) continue;
+                    if (fighters[i][k].timeOff > 0) continue;
                     if (fighters[i][k].overall >= fighters[i][j].overall) continue;
 
                     score = 0.7 / (Math.abs(fighters[i][k].overall - (fighters[i][j].overall - 5)) + 1);
@@ -55,6 +61,8 @@ function MatchMaker(weeks: Week[], roster: FighterHandler,  time: Time, init: bo
                 for (let k = 0; k < wcSize; k++) {
                     if (j === k) continue;
                     if (fighters[i][k].hasFight) continue;
+                    if (fighters[i][k].retired === 1) continue;
+                    if (fighters[i][k].timeOff > 0) continue;
 
                     score =
                         fighters[i][k].popularity / (100.0 / 0.4) -
@@ -73,6 +81,8 @@ function MatchMaker(weeks: Week[], roster: FighterHandler,  time: Time, init: bo
                     if (fighters[i][k].type !== 3) continue;
                     if (j === k) continue;
                     if (fighters[i][k].hasFight) continue;
+                    if (fighters[i][k].retired === 1) continue;
+                    if (fighters[i][k].timeOff > 0) continue;
 
                     score = 0.3 / (Math.abs(fighters[i][k].overall - fighters[i][j].overall) + 1);
                     score = _.clamp(score + _.random(-0.05, 0.05, true), 0, 100);
@@ -88,6 +98,8 @@ function MatchMaker(weeks: Week[], roster: FighterHandler,  time: Time, init: bo
                     if (fighters[i][k].type !== 4) continue;
                     if (j === k) continue;
                     if (fighters[i][k].hasFight) continue;
+                    if (fighters[i][k].retired === 1) continue;
+                    if (fighters[i][k].timeOff > 0) continue;
 
                     score = 0.3 / (Math.abs(fighters[i][k].overall - fighters[i][j].overall) + 1);
                     score = _.clamp(score + _.random(-0.05, 0.05, true), 0, 100);

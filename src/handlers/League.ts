@@ -41,9 +41,9 @@ class League {
         }
 
         // Check if cards is already saved in browser
-        if(window.localStorage.getItem('cards') === null){
-            this.cards = new CardHandler(this.time);
-            window.localStorage.setItem('cards', JSON.stringify(this.cards));
+        if(window.localStorage.getItem('weeks') === null){
+            this.cards = new CardHandler(this.time, this.roster);
+            window.localStorage.setItem('weeks', JSON.stringify(this.cards.weeks));
 
             MatchMaker(this.cards.weeks, this.roster, this.time, true);
 
@@ -52,10 +52,12 @@ class League {
             }
         }
         else{
-            let cards = window.localStorage.getItem('cards') as string;
+            let cards = window.localStorage.getItem('weeks') as string;
             let result = window.localStorage.getItem('result') as string;
-            this.cards = new CardHandler(this.time, JSON.parse(cards), JSON.parse(result), this.roster);
+            this.cards = new CardHandler(this.time, this.roster, JSON.parse(cards), JSON.parse(result));
         }
+
+        console.log(this.cards.weeks);
     }
 
     advance = (amt: number) => {
@@ -64,17 +66,19 @@ class League {
             this.time.advance();
             this.cards.advance();
             this.roster.advance(this.leagueTime.tick);
-            if(this.leagueTime.tick % 52 === 0) this.roster.age();
+            if(this.leagueTime.tick % 52 === 0) {
+                this.roster.age();
+                this.cards.filter();
+            }
             MatchMaker(this.cards.weeks, this.roster, this.time, false);
             this.cards.structureCard(4);
-            console.log(this.cards.getWeek());
             console.log(this.roster.getPercentWithFight() + "%");
+            console.log(this.cards.weeks);
         }
         window.localStorage.setItem('leagueTime', JSON.stringify(this.leagueTime));
         window.localStorage.setItem('roster', JSON.stringify(this.roster));
-        window.localStorage.setItem('cards', JSON.stringify(this.cards));
-
-        console.log(this.roster.fighters);
+        window.localStorage.setItem('weeks', JSON.stringify(this.cards.weeks));
+        window.localStorage.setItem('result', JSON.stringify(this.cards.results));
     };
 
     getWeightClass = (index: number) => this.roster.getWeightClass(index);

@@ -10,6 +10,8 @@ export interface Fighter {
     lastName: string;
     age: number;
     career: number;
+    retired: number; // 0: active, 1: planning to retire, 2: retired
+    timeOff: number;
     belts: number;
     weightClass: number;
     type: number; // 0: champ, 1: prospect, 2: legend, 3: can, 4: average
@@ -151,7 +153,7 @@ class FighterHandler {
                 this.fighters[i][j].age++;
                 this.fighters[i][j].career++;
                 this.setPeak(this.fighters[i][j]);
-                this.fighters[i][j] = this.retire(this.fighters[i][j]);
+                if(this.fighters[i][j].retired === 1) this.fighters[i][j] = this.retire(this.fighters[i][j]);
             }
     };
 
@@ -210,6 +212,8 @@ class FighterHandler {
             lastName: human_names.allRandom(),
             age: age,
             career: Math.floor(randomTruncSkewNormal(Math.random(), [0, age - 16], age - 17, 2, 0)),
+            retired: 0,
+            timeOff: 0,
             belts: 0,
             weightClass: wc,
             type: 4,
@@ -279,6 +283,8 @@ class FighterHandler {
             lastName: human_names.allRandom(),
             age: age,
             career: Math.floor(randomTruncSkewNormal(Math.random(), [0, age - 16], age - 17, 2, 0)),
+            retired: 0,
+            timeOff: 0,
             belts: 0,
             weightClass: wc,
             type: 4,
@@ -367,6 +373,8 @@ class FighterHandler {
             else if (fighter.popularity > 80 && fighter.age > 35) fighter.type = 2;
             else if (fighter.age > 27 && fighter.overall < 50) fighter.type = 3;
         }
+
+        fighter.timeOff = _.clamp(fighter.timeOff - 1, 0, fighter.timeOff);
     };
 
     setPeak = (fighter: Fighter) => {
@@ -379,6 +387,13 @@ class FighterHandler {
         }
     };
 
+    postFight = (fighter: Fighter) => {
+        if(fighter.age > 40) fighter.retired = 1;
+        else {
+            fighter.timeOff = _.random(0, 5, false);
+        }
+    }
+
     retire = (fighter: Fighter): Fighter => {
         let ret: boolean = false;
         if (fighter.age > 40) ret = true;
@@ -389,6 +404,7 @@ class FighterHandler {
                     if (_.isEqual(this.champions[fighter.weightClass][i], fighter))
                         this.champions[fighter.weightClass][i] = null;
 
+            fighter.retired = 2;
             this.retired.push(fighter);
             if (fighter.hasFight) {
                 let opponent: Fighter = _.find(this.fighters[fighter.weightClass], { id: fighter.opponentId })!;

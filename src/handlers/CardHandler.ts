@@ -43,21 +43,18 @@ export interface Result {
     title: boolean;
 }
 
-interface ImportCard {
-    weeks: Week[];
-    results: Result[];
-}
-
 class CardHandler {
     weeks: Week[];
     time: Time;
     results: Result[];
+    roster: FighterHandler;
     private cardBuffer = 15;
     private tick;
 
-    constructor(time: Time, localCards: ImportCard | null = null, result: Result[] | null = null, roster: FighterHandler | null = null) {
+    constructor(time: Time, roster: FighterHandler, localCards: Week[] | null = null, result: Result[] | null = null) {
         this.tick = 0;
         this.time = time;
+        this.roster = roster;
         if (localCards === null) {
             this.results = [];
             this.weeks = [];
@@ -77,16 +74,16 @@ class CardHandler {
             this.weeks = [];
             for (let i = 0; i < this.cardBuffer; i++) {
                 this.weeks[i] = {
-                    date: localCards.weeks[i].date,
-                    dateStr: localCards.weeks[i].dateStr,
-                    numFights: localCards.weeks[i].numFights,
+                    date: localCards[i].date,
+                    dateStr: localCards[i].dateStr,
+                    numFights: localCards[i].numFights,
                     cards: []
                 };
 
-                let len = localCards.weeks[i].cards.length;
+                let len = localCards[i].cards.length;
                 for (let j = 0; j < len; j++){
                     let matches: Match[] = [];
-                    let matchups = localCards.weeks[i].cards[j].matches;
+                    let matchups = localCards[i].cards[j].matches;
 
                     matchups.forEach((match) => {
                         let fighterOne = _.find(roster?.fighters[match.weight], { id: match.matchId.fone });
@@ -111,22 +108,23 @@ class CardHandler {
             }
 
             this.results = [];
-            localCards.results.forEach(result => {
-                let fighterOne = _.find(roster?.fighters[result.weight], { id: result.matchId.fone });
-                let fighterTwo = _.find(roster?.fighters[result.weight], { id: result.matchId.ftwo });
-
-                this.results.push({
-                    fighterOne: fighterOne!,
-                    fighterTwo: fighterTwo!,
-                    matchId: result.matchId,
-                    weight: result.weight,
-                    title: result.title
-                })
-            });
+            if(result !== null){
+                result!.forEach(result => {
+                    let fighterOne = _.find(roster?.fighters[result.weight], { id: result.matchId.fone });
+                    let fighterTwo = _.find(roster?.fighters[result.weight], { id: result.matchId.ftwo });
+    
+                    this.results.push({
+                        fighterOne: fighterOne!,
+                        fighterTwo: fighterTwo!,
+                        matchId: result.matchId,
+                        weight: result.weight,
+                        title: result.title
+                    });
+                });
+            }
 
         }
 
-        console.log(this.weeks);
     }
 
     advance = () => {
@@ -153,9 +151,21 @@ class CardHandler {
             this.weeks[0].cards[i].matches.forEach((match, j) => {
                 let result: Result = Fight(match);
                 if(j === 0) this.results.push(result);
+                this.roster.postFight(match.fighterOne);
+                this.roster.postFight(match.fighterTwo);
             });
         }
     };
+
+    filter = () => {
+        console.log(this.results);
+        this.results.forEach((result, i, obj) => {
+            if(result.fighterOne.retired === 2 || result.fighterTwo.retired === 2){
+                console.log(obj[i]);
+                obj.splice(i, 1);
+            }
+        });
+    }
 
     structureCard = (tick: number) => {
         let numCards = _.clamp(Math.floor(this.weeks[tick].numFights / 7), 1, 1000);
