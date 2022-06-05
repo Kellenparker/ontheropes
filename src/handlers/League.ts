@@ -1,63 +1,47 @@
 import FighterHandler from "./FighterHandler";
 import CardHandler from "./CardHandler";
 import MatchMaker from "./MatchMaker";
+import {Save} from "./Storage";
 import Time from "./Time";
 
-interface LeagueTime {
-    tick: number;
-    startYear: number;
+export interface LocalTime {
+    tick: number,
+    startYear: number,
+}
+
+export interface ImportData {
+    leagueTime: LocalTime,
+    time: Time,
+    roster: FighterHandler,
+    cards: CardHandler,
+    init: boolean
 }
 
 class League {
-    leagueTime: LeagueTime;
+    leagueTime: LocalTime;
     time: Time;
     roster: FighterHandler;
     cards: CardHandler;
 
-    constructor(start: number) {
-        // Check if time is already saved in browser
-        if(window.localStorage.getItem('leagueTime') === null){
-            this.leagueTime = {
-                tick: 0,
-                startYear: start,
-            };
-            window.localStorage.setItem('leagueTime', JSON.stringify(this.leagueTime));
-        }
-        else{
-            let obj = window.localStorage.getItem('leagueTime') as string;
-            this.leagueTime = JSON.parse(obj);
-        }
-        
-        this.time = new Time(this.leagueTime.startYear, this.leagueTime.tick);
+    constructor(data: ImportData) {
+        this.leagueTime = data.leagueTime;
+        this.time = data.time;
+        this.roster = data.roster;
+        this.cards = data.cards;
 
-        // Check if roster is already saved in browser
-        if(window.localStorage.getItem('roster') === null){
-            this.roster = new FighterHandler(null);
-            window.localStorage.setItem('roster', JSON.stringify(this.roster));
-        }
-        else{
-            let obj = window.localStorage.getItem('roster') as string;
-            this.roster = new FighterHandler(JSON.parse(obj));
-        }
+        console.log(this.leagueTime);
+        console.log(this.time);
+        console.log(this.roster);
+        console.log(this.cards);
 
-        // Check if cards is already saved in browser
-        if(window.localStorage.getItem('weeks') === null){
-            this.cards = new CardHandler(this.time, this.roster);
-            window.localStorage.setItem('weeks', JSON.stringify(this.cards.weeks));
-
+        if(data.init){
             MatchMaker(this.cards.weeks, this.roster, this.time, true);
 
             for(let i = 0; i < 4; i++){
                 this.cards.structureCard(i);
             }
         }
-        else{
-            let cards = window.localStorage.getItem('weeks') as string;
-            let result = window.localStorage.getItem('result') as string;
-            this.cards = new CardHandler(this.time, this.roster, JSON.parse(cards), JSON.parse(result));
-        }
 
-        console.log(this.cards.weeks);
     }
 
     advance = (amt: number) => {
@@ -75,10 +59,9 @@ class League {
             console.log(this.roster.getPercentWithFight() + "%");
             console.log(this.cards.weeks);
         }
-        window.localStorage.setItem('leagueTime', JSON.stringify(this.leagueTime));
-        window.localStorage.setItem('roster', JSON.stringify(this.roster));
-        window.localStorage.setItem('weeks', JSON.stringify(this.cards.weeks));
-        window.localStorage.setItem('result', JSON.stringify(this.cards.results));
+        
+        Save(this.leagueTime, this.roster, this.cards);
+
     };
 
     getWeightClass = (index: number) => this.roster.getWeightClass(index);

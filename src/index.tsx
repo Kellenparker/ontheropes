@@ -4,15 +4,24 @@ import './index.css';
 import App from './ui/App';
 import League from './handlers/League';
 import reportWebVitals from './reportWebVitals';
+import {Load} from './handlers/Storage';
 
-const league = new League(2022);
+async function init(){
 
-ReactDOM.render(
-	<React.StrictMode>
-		<App league={league} />
-	</React.StrictMode>,
-	document.getElementById('site-content')
-);
+	let data = await Load(2022);
+
+	const league = new League(data);
+
+	ReactDOM.render(
+		<React.StrictMode>
+			<App league={league} />
+		</React.StrictMode>,
+		document.getElementById('site-content')
+	);
+
+}
+
+init();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

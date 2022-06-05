@@ -79,11 +79,6 @@ export interface FighterResults {
     title: boolean;
 }
 
-interface ImportRoster {
-    fighters: Fighter[][];
-    retired: Fighter[];
-}
-
 const wcNum = 9;
 const wcSize = 100;
 const numBelts = 3;
@@ -93,25 +88,29 @@ class FighterHandler {
     champions: (Fighter | null)[][];
     retired: Fighter[];
 
-    constructor(localRoster: ImportRoster | null) {
+    constructor() {
         this.champions = [];
-        if (localRoster === null) {
-            this.fighters = [];
-            this.retired = [];
-            for (let i = 0; i < wcNum; i++) {
-                this.fighters[i] = [];
-                for (let j = 0; j < wcSize; j++) {
-                    this.fighters[i][j] = this.generateFighter(i);
-                }
-                this.fighters[i] = _.orderBy(this.fighters[i], "overall", "desc");
+        this.fighters = [];
+        this.retired = [];
+    }
+    
+    loadFighters = (fighters: Fighter[][]) => {
+
+    }
+
+    loadRetired = (fighters: Fighter[]) => {
+
+    }
+
+    initRoster = () => {
+        for (let i = 0; i < wcNum; i++) {
+            this.fighters[i] = [];
+            for (let j = 0; j < wcSize; j++) {
+                this.fighters[i][j] = this.generateFighter(i);
             }
-            this.setChamps();
-        } else {
-            this.fighters = localRoster.fighters;
-            this.retired = localRoster.retired;
-            console.log(this.fighters);
-            this.getChamps();
+            this.fighters[i] = _.orderBy(this.fighters[i], "overall", "desc");
         }
+        this.setChamps();
     }
 
     setChamps = () => {
@@ -154,7 +153,7 @@ class FighterHandler {
                 this.fighters[i][j].age++;
                 this.fighters[i][j].career++;
                 this.setPeak(this.fighters[i][j]);
-                if(this.fighters[i][j].retired === 1) this.fighters[i][j] = this.retire(this.fighters[i][j]);
+                if (this.fighters[i][j].retired === 1) this.fighters[i][j] = this.retire(this.fighters[i][j]);
             }
     };
 
@@ -187,7 +186,7 @@ class FighterHandler {
                     fighter.chin +
                     fighter.reach +
                     fighter.height) /
-                    20
+                20
             ),
             0,
             100
@@ -389,7 +388,7 @@ class FighterHandler {
     };
 
     postFight = (fighter: Fighter) => {
-        if(fighter.age > 40) fighter.retired = 1;
+        if (fighter.age > 40) fighter.retired = 1;
         else {
             fighter.timeOff = _.random(0, 5, false);
         }
