@@ -46,7 +46,7 @@ function Fight(match: Match): Result{
             weight: match.weight,
             title: match.title
         }
-        match.fighterOne.results.unshift({
+        match.fighterOne.results.push({
             opponent: {
                 name: match.fighterTwo.firstName + " " + match.fighterTwo.lastName,
                 id: match.fighterTwo.id,
@@ -54,11 +54,12 @@ function Fight(match: Match): Result{
                 record: match.fighterTwo.formatted.record,
                 belts: match.fighterTwo.belts,
             },
+            num: match.fighterOne.results.length,
             dateStr: match.dateStr,
             win: true,
             title: match.title
         });
-        match.fighterTwo.results.unshift({
+        match.fighterTwo.results.push({
             opponent: {
                 name: match.fighterOne.firstName + " " + match.fighterOne.lastName,
                 id: match.fighterOne.id,
@@ -66,6 +67,7 @@ function Fight(match: Match): Result{
                 record: match.fighterOne.formatted.record,
                 belts: match.fighterOne.belts,
             },
+            num: match.fighterTwo.results.length,
             dateStr: match.dateStr,
             win: false,
             title: match.title
@@ -107,7 +109,7 @@ function Fight(match: Match): Result{
             weight: match.weight,
             title: match.title
         }
-        match.fighterOne.results.unshift({
+        match.fighterOne.results.push({
             opponent: {
                 name: match.fighterTwo.firstName + " " + match.fighterTwo.lastName,
                 id: match.fighterTwo.id,
@@ -115,11 +117,12 @@ function Fight(match: Match): Result{
                 record: match.fighterTwo.formatted.record,
                 belts: match.fighterTwo.belts,
             },
+            num: match.fighterOne.results.length,
             dateStr: match.dateStr,
             win: false,
             title: match.title
         });
-        match.fighterTwo.results.unshift({
+        match.fighterTwo.results.push({
             opponent: {
                 name: match.fighterOne.firstName + " " + match.fighterOne.lastName,
                 id: match.fighterOne.id,
@@ -127,6 +130,7 @@ function Fight(match: Match): Result{
                 record: match.fighterOne.formatted.record,
                 belts: match.fighterOne.belts,
             },
+            num: match.fighterTwo.results.length,
             dateStr: match.dateStr,
             win: true,
             title: match.title

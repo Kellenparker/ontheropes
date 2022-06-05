@@ -5,7 +5,18 @@ import { Fighter } from "../handlers/FighterHandler";
 import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
 
+import "./styles/ResultTable.css";
+
 const columns: GridColDef[] = [
+    {
+        field: "num",
+        headerName: "#",
+        minWidth: 25,
+        align: "right",
+        editable: false,
+        flex: 1,
+        sortable: false,
+    },
     {
         field: "date",
         headerName: "Date",
@@ -13,6 +24,7 @@ const columns: GridColDef[] = [
         minWidth: 120,
         align: "right",
         editable: false,
+        sortable: false,
         flex: 1,
     },
     { 
@@ -21,6 +33,7 @@ const columns: GridColDef[] = [
         minWidth: 100, 
         editable: false, 
         flex: 1,
+        sortable: false,
         renderCell: (params) => (
             <Link to={{
                 pathname: `/f/${params.id}`
@@ -56,6 +69,7 @@ const columns: GridColDef[] = [
         align: "right",
         editable: false,
         flex: 1,
+        sortable: false,
     },
     {
         field: "finish",
@@ -64,6 +78,7 @@ const columns: GridColDef[] = [
         align: "right",
         editable: false,
         flex: 1,
+        sortable: false,
     },
     {
         field: "title",
@@ -72,11 +87,13 @@ const columns: GridColDef[] = [
         align: "right",
         editable: false,
         flex: 1,
+        sortable: false,
     },
 ];
 
 interface Data {
-    id: number;
+    id: string;
+    num: number;
     date: string;
     opponent: string;
     overall: number;
@@ -97,7 +114,8 @@ export default function StickyHeadTable(props: propData) {
         let formatted = new Array<Data>(numResults);
         for (let i = 0; i < numResults; i++) {
             formatted[i] = {
-                id: i,
+                id: props.fighter.results[i].opponent.id,
+                num: props.fighter.results[i].num,
                 date: props.fighter.results[i].dateStr,
                 opponent: props.fighter.results[i].opponent.name,
                 overall: props.fighter.results[i].opponent.overall,
@@ -135,7 +153,9 @@ export default function StickyHeadTable(props: propData) {
                     rowsPerPageOptions={[]}
                     rowHeight={35}
                     initialState={{
-                        
+                        sorting: {
+                            sortModel: [{field: 'num', sort: 'desc'}],
+                        },
                     }}
                     disableSelectionOnClick
                     disableColumnSelector
