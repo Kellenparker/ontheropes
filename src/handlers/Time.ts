@@ -8,6 +8,7 @@ class Time {
     }
 
     advance = () => {
+        console.log(this.year);
         this.week++;
         if (this.week > 52) {
             this.week = 1;

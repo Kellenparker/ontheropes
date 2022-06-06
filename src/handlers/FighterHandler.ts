@@ -274,7 +274,7 @@ class FighterHandler {
     newFighter = (wc: number) => {
         let age = _.random(17, 23, false);
         let height = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 50, 30, 0));
-        let fights = Math.floor((age - 17) * _.random(1, 3, false));
+        let fights = 0;
         let reach = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], height, 30, 0));
         let stamina = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 50, 30, 0));
         let chin = Math.floor(randomTruncSkewNormal(Math.random(), [0, 100], 50, 30, 0));

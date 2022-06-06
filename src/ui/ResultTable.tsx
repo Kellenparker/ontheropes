@@ -36,7 +36,7 @@ const columns: GridColDef[] = [
         sortable: false,
         renderCell: (params) => (
             <Link to={{
-                pathname: `/f/${params.id}`
+                pathname: `/f/${params.id.toString().substring(0, params.id.toString().indexOf('?'))}`
             }}>{params.value}</Link>
         )
     },
@@ -114,7 +114,7 @@ export default function StickyHeadTable(props: propData) {
         let formatted = new Array<Data>(numResults);
         for (let i = 0; i < numResults; i++) {
             formatted[i] = {
-                id: props.fighter.results[i].opponent.id,
+                id: props.fighter.results[i].opponent.id + "?" + i,
                 num: props.fighter.results[i].num,
                 date: props.fighter.results[i].dateStr,
                 opponent: props.fighter.results[i].opponent.name,

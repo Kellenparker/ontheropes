@@ -7,6 +7,9 @@ function Fight(match: Match): Result{
     var winner;
     let result: Result;
 
+    match.fighterOne.fights++;
+    match.fighterTwo.fights++;
+
     if(_.random(-25, 25, true) > dif) winner = 0;
     else winner = 1;
 
@@ -54,7 +57,7 @@ function Fight(match: Match): Result{
                 record: match.fighterTwo.formatted.record,
                 belts: match.fighterTwo.belts,
             },
-            num: match.fighterOne.results.length,
+            num: match.fighterOne.fights,
             dateStr: match.dateStr,
             win: true,
             title: match.title
@@ -67,7 +70,7 @@ function Fight(match: Match): Result{
                 record: match.fighterOne.formatted.record,
                 belts: match.fighterOne.belts,
             },
-            num: match.fighterTwo.results.length,
+            num: match.fighterTwo.fights,
             dateStr: match.dateStr,
             win: false,
             title: match.title
@@ -117,7 +120,7 @@ function Fight(match: Match): Result{
                 record: match.fighterTwo.formatted.record,
                 belts: match.fighterTwo.belts,
             },
-            num: match.fighterOne.results.length,
+            num: match.fighterOne.fights,
             dateStr: match.dateStr,
             win: false,
             title: match.title
@@ -130,7 +133,7 @@ function Fight(match: Match): Result{
                 record: match.fighterOne.formatted.record,
                 belts: match.fighterOne.belts,
             },
-            num: match.fighterTwo.results.length,
+            num: match.fighterTwo.fights,
             dateStr: match.dateStr,
             win: true,
             title: match.title
