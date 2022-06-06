@@ -55,6 +55,7 @@ class CardHandler {
         this.tick = 0;
         this.time = time;
         this.roster = roster;
+        
         if (localCards === null) {
             this.results = [];
             this.weeks = [];

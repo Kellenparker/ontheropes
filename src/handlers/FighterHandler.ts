@@ -95,11 +95,19 @@ class FighterHandler {
     }
     
     loadFighters = (fighters: Fighter[][]) => {
-
+        let len = fighters.length;
+        for(let i = 0; i < len; i++){
+            this.fighters[i] = [];
+            fighters[i].forEach((fighter, j) => {
+                this.fighters[i][j] = fighter;
+            })
+        }
     }
 
     loadRetired = (fighters: Fighter[]) => {
-
+        fighters.forEach((fighter, i) => {
+            this.retired[i] = fighter;
+        })
     }
 
     initRoster = () => {

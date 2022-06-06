@@ -43,6 +43,7 @@ class Home extends React.Component<myProps, myState> {
         });
     }
     render() {
+        console.log(this.state.week[0].cards);
         return (
             <div className="app">
                 <div className="col">
