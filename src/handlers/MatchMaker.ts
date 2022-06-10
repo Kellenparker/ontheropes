@@ -31,6 +31,15 @@ function MatchMaker(weeks: Week[], roster: FighterHandler,  time: Time, init: bo
                         fighters[i][k].popularity / (100.0 / 0.35) +
                         fighters[i][k].overall / (100.0 / 0.25) +
                         fighters[i][k].belts / (3 / 0.3);
+                    
+                    for(let i = 0; i < 5; i++){
+                        if(i >= fighters[i][j].results.length) break;
+                        if(fighters[i][j].results[i].opponent.id === fighters[i][k].id){
+                            score /= 3;
+                            break;
+                        }
+                    }
+
                     score = _.clamp(score + _.random(-0.05, 0.05, true), 0, 100);
 
                     if (score > candidate) {
@@ -49,6 +58,15 @@ function MatchMaker(weeks: Week[], roster: FighterHandler,  time: Time, init: bo
                     if (fighters[i][k].overall >= fighters[i][j].overall) continue;
 
                     score = 0.7 / (Math.abs(fighters[i][k].overall - (fighters[i][j].overall - 5)) + 1);
+                    
+                    for(let i = 0; i < 5; i++){
+                        if(i >= fighters[i][j].results.length) break;
+                        if(fighters[i][j].results[i].opponent.id === fighters[i][k].id){
+                            score /= 3;
+                            break;
+                        }
+                    }
+
                     score = _.clamp(score + _.random(-0.05, 0.05, true), 0, 100);
 
                     if (score > candidate) {
@@ -68,6 +86,15 @@ function MatchMaker(weeks: Week[], roster: FighterHandler,  time: Time, init: bo
                         fighters[i][k].popularity / (100.0 / 0.4) -
                         fighters[i][k].overall / (100.0 / 0.3) +
                         fighters[i][k].belts / (3 / 0.2);
+                    
+                    for(let i = 0; i < 5; i++){
+                        if(i >= fighters[i][j].results.length) break;
+                        if(fighters[i][j].results[i].opponent.id === fighters[i][k].id){
+                            score /= 3;
+                            break;
+                        }
+                    }
+                    
                     score = _.clamp(score + _.random(-0.05, 0.05, true), 0, 100);
 
                     if (score > candidate) {
@@ -85,6 +112,15 @@ function MatchMaker(weeks: Week[], roster: FighterHandler,  time: Time, init: bo
                     if (fighters[i][k].timeOff > 0) continue;
 
                     score = 0.3 / (Math.abs(fighters[i][k].overall - fighters[i][j].overall) + 1);
+                    
+                    for(let i = 0; i < 5; i++){
+                        if(i >= fighters[i][j].results.length) break;
+                        if(fighters[i][j].results[i].opponent.id === fighters[i][k].id){
+                            score /= 3;
+                            break;
+                        }
+                    }
+
                     score = _.clamp(score + _.random(-0.05, 0.05, true), 0, 100);
 
                     if (score > candidate) {
@@ -102,6 +138,15 @@ function MatchMaker(weeks: Week[], roster: FighterHandler,  time: Time, init: bo
                     if (fighters[i][k].timeOff > 0) continue;
 
                     score = 0.3 / (Math.abs(fighters[i][k].overall - fighters[i][j].overall) + 1);
+                    
+                    for(let i = 0; i < 5; i++){
+                        if(i >= fighters[i][j].results.length) break;
+                        if(fighters[i][j].results[i].opponent.id === fighters[i][k].id){
+                            score /= 3;
+                            break;
+                        }
+                    }
+
                     score = _.clamp(score + _.random(-0.05, 0.05, true), 0, 100);
 
                     if (score > candidate) {

@@ -51,16 +51,16 @@ function Fight(match: Match): Result {
     } else if (fOneKo && fTwoKo) {
         finish = 0;
         round = _.random(1, match.rounds, false);
-        winner = _.random(0, 1, true) > .5 ? 0 : 1;
+        winner = _.random(0, 1, true) > 0.5 ? 0 : 1;
     } else {
         let physDif = dif.height + dif.reach + dif.stamina + dif.chin + dif.power;
         let skillDif = dif.timing + dif.defense + dif.speed + dif.footwork;
         let sway = 3;
 
-        let trueDif = (physDif / .6)+ skillDif;
+        let trueDif = physDif / 0.6 + skillDif;
 
-        if(trueDif > 0) winner = _.random(0 - (sway / trueDif), trueDif - (sway / trueDif), true) > 0 ? 0 : 1;
-        else winner = _.random(trueDif + (sway / trueDif), 0 + (sway / trueDif), true) > 0 ? 1 : 0;
+        if (trueDif > 0) winner = _.random(0 - sway / trueDif, trueDif - sway / trueDif, true) > 0 ? 0 : 1;
+        else winner = _.random(trueDif + sway / trueDif, 0 + sway / trueDif, true) > 0 ? 1 : 0;
 
         finish = -1;
         round = -1;

@@ -116,7 +116,6 @@ class FighterHandler {
             for (let j = 0; j < wcSize; j++) {
                 this.fighters[i][j] = this.generateFighter(i);
             }
-            this.fighters[i] = _.orderBy(this.fighters[i], "overall", "desc");
         }
         this.setChamps();
     }
@@ -407,10 +406,14 @@ class FighterHandler {
         if (fighter.age > 40) ret = true;
 
         if (ret) {
-            if (fighter.belts > 0)
+            if (fighter.belts > 0){
+                let ordered = _.orderBy(this.fighters[fighter.weightClass], "overall", "desc");
+                let topFighter = ordered[0];
+                topFighter.belts = fighter.belts;
                 for (let i = 0; i < numBelts; i++)
                     if (_.isEqual(this.champions[fighter.weightClass][i], fighter))
-                        this.champions[fighter.weightClass][i] = null;
+                        this.champions[fighter.weightClass][i] = topFighter;
+            }
 
             fighter.retired = 2;
             this.retired.push(fighter);

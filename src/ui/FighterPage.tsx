@@ -27,12 +27,13 @@ const getWeightClass = (num: number): string => {
 
 const FighterPage = (props: { fighters: Fighter[][], retired: Fighter[] }) => {
     const { id } = useParams();
+    let fid = id!.toString().substring(0, id!.indexOf('?') > 0 ? id!.indexOf('?') : id!.length);
     let fighter: Fighter | undefined;
     let retired: boolean = false;
     let len = props.fighters.length;
-    for (let i = 0; i < len && fighter === undefined; i++) fighter = _.find(props.fighters[i], { id: id });
+    for (let i = 0; i < len && fighter === undefined; i++) fighter = _.find(props.fighters[i], { id: fid });
     if(fighter === undefined){
-        fighter = _.find(props.retired, { id: id });
+        fighter = _.find(props.retired, { id: fid });
         retired = true;
     }
     return (
