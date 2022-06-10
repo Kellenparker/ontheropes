@@ -42,6 +42,8 @@ class League {
             }
         }
 
+        Save(this.leagueTime, this.roster, this.cards);
+
     }
 
     advance = (amt: number) => {

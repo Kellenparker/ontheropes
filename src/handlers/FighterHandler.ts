@@ -410,7 +410,7 @@ class FighterHandler {
                 let ordered = _.orderBy(this.fighters[fighter.weightClass], "overall", "desc");
                 let topFighter = ordered[0];
                 topFighter.belts = fighter.belts;
-                for (let i = 0; i < numBelts; i++)
+                for (let i = 0; i < fighter.belts; i++)
                     if (_.isEqual(this.champions[fighter.weightClass][i], fighter))
                         this.champions[fighter.weightClass][i] = topFighter;
             }

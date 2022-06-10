@@ -7,10 +7,10 @@ const Header = () => {
 		<div className="header">
 			<Link to="/" className="title">On the Ropes</Link>
 			<div>
-				<button className="headButton">Test</button>
-				<button className="headButton">Test2</button>
-				<button className="headButton">Test3</button>
-				<button className="headButton">Test4</button>
+				<button className="headButton">Champions</button>
+				<button className="headButton">Top Fighters</button>
+				<button className="headButton">Upcoming Cards</button>
+				<button className="headButton">Hall of Fame</button>
 			</div>
 		</div>
 	);
