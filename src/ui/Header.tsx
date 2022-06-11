@@ -3,6 +3,7 @@ import MoreVertIcon from "@mui/icons-material/KeyboardArrowDown";
 import React from "react";
 import { Link } from "react-router-dom";
 import "./styles/Header.css";
+import { init } from "../index";
 
 const Header = () => {
     return (
@@ -37,6 +38,7 @@ function OptionMenu() {
     };
     const handleClose = () => {
         setAnchorEl(null);
+		init(true);
     };
 
     return (

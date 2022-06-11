@@ -69,6 +69,52 @@ export async function Load(start: number) {
 
 }
 
+export async function Reset(start: number){
+
+    localforage.removeItem('activeFighters').then(value => {
+        console.log(value)
+    }).catch(error => {
+        console.log(error);
+    })
+    localforage.removeItem('retiredFighters').then(value => {
+        console.log(value)
+    }).catch(error => {
+        console.log(error);
+    })
+    window.localStorage.removeItem('leagueTime');
+    window.localStorage.removeItem('weeks');
+    window.localStorage.removeItem('result');
+
+    let leagueTime;
+    let time: Time;
+    let roster: FighterHandler;
+    let cards: CardHandler;
+    let init: boolean = true;
+
+    leagueTime = {
+        tick: 0,
+        startYear: start,
+    };
+    window.localStorage.setItem('leagueTime', JSON.stringify(leagueTime));
+
+    time = new Time(leagueTime.startYear, leagueTime.tick);
+
+    roster = new FighterHandler();
+    roster.initRoster();
+
+    cards = new CardHandler(time, roster);
+    window.localStorage.setItem('weeks', JSON.stringify(cards.weeks));
+
+    return {
+        leagueTime,
+        time,
+        roster,
+        cards,
+        init
+    } as unknown as ImportData;
+
+}
+
 export async function Save(leagueTime: LocalTime, roster: FighterHandler, cards: CardHandler) {
 
     window.localStorage.setItem('leagueTime', JSON.stringify(leagueTime));
