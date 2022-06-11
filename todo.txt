@@ -1,0 +1,5 @@
+reduce storage size of weeks
+
+add pages
+
+fighter info when hovering over fighter
