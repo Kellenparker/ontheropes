@@ -1,46 +1,36 @@
 .header {
     position: fixed;
-    height: 97.5px;
+    height: 9vh;
     background: white;
-    border-bottom: 1px solid #757575;
+    border-bottom: 1px solid #c4c4c4;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    filter: drop-shadow(0px 0px 4px #a1a1a1);
+    filter: drop-shadow(0px 0px 2px #d1d1d1);
     top: 0;
 }
 
 .title {
-    font-size: 40px;
+    font-size: 35px;
     font-style: italic;
+    position: absolute;
     text-decoration: none;
     color: black;
     font-weight: bolder;
-    margin-top: 3.4vh;
-    margin-bottom: .5vh;
-    left: 80px;
+    left: 2%;
 }
 
 .headButton {
     margin-bottom: 1vh;
-    margin-top: 1vh;
-    background-color: #ffffff;
-    border: none;
-    color: rgb(0, 0, 0);
-    padding: 12px 32px;
+    margin-top: 2vh;
+    padding: 1vh 1vh;
     text-align: center;
     text-decoration: none;
-    font-size: 16px;
-    float: none;
-    border: 1px solid rgb(165, 165, 165);
 }
 
-.headButton:hover {
-    background-color: #dfdfdf;
-}
-
-.headButton:active {
-    background-color: #b4b4b4;
+.opt {
+    position: absolute;
+    right: 1%;
 }

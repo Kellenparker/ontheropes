@@ -41,28 +41,30 @@ class App extends React.Component<myProps, myState> {
     render() {
         return (
             <div>
-                <BrowserRouter>
-                    <Header />
-                    <Routes>
-                        <Route
-                            path="/"
-                            element={<Home league={this.state.league} ref={this.homeRef as RefObject<Home>} />}
-                        />
-                        <Route
-                            path="/f/:id"
-                            element={
-                                <FighterPage
-                                    fighters={this.state.league.roster.fighters as Fighter[][]}
-                                    retired={this.state.league.roster.retired as Fighter[]}
-                                />
-                            }
-                        />
-                        <Route
-                            path="/home"
-                            element={<Home league={this.state.league} ref={this.homeRef as RefObject<Home>} />}
-                        />
-                    </Routes>
-                </BrowserRouter>
+                <div id="contents">
+                    <BrowserRouter>
+                        <Header />
+                        <Routes>
+                            <Route
+                                path="/"
+                                element={<Home league={this.state.league} ref={this.homeRef as RefObject<Home>} />}
+                            />
+                            <Route
+                                path="/f/:id"
+                                element={
+                                    <FighterPage
+                                        fighters={this.state.league.roster.fighters as Fighter[][]}
+                                        retired={this.state.league.roster.retired as Fighter[]}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="/home"
+                                element={<Home league={this.state.league} ref={this.homeRef as RefObject<Home>} />}
+                            />
+                        </Routes>
+                    </BrowserRouter>
+                </div>
                 <p id="dayStr">{this.state.date}</p>
                 <Button id="advBtn" variant="contained" onClick={(e) => this.advance(52)}>
                     Advance
