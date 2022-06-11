@@ -24,12 +24,12 @@ const Header = () => {
                     Hall of Fame
                 </Button>
             </ButtonGroup>
-            <CustomizedMenus></CustomizedMenus>
+            <OptionMenu/>
         </div>
     );
 };
 
-function CustomizedMenus() {
+function OptionMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {

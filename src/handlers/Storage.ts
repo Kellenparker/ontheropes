@@ -70,7 +70,7 @@ export async function Load(start: number) {
 }
 
 export async function Save(leagueTime: LocalTime, roster: FighterHandler, cards: CardHandler) {
-    
+
     window.localStorage.setItem('leagueTime', JSON.stringify(leagueTime));
     localforage.setItem('activeFighters', roster.fighters).then(function(value) {
         console.log(value);

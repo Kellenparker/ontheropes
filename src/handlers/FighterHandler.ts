@@ -102,6 +102,7 @@ class FighterHandler {
                 this.fighters[i][j] = fighter;
             })
         }
+        this.getChamps();
     }
 
     loadRetired = (fighters: Fighter[]) => {
@@ -410,7 +411,9 @@ class FighterHandler {
                 let ordered = _.orderBy(this.fighters[fighter.weightClass], "overall", "desc");
                 let topFighter = ordered[0];
                 topFighter.belts = fighter.belts;
-                for (let i = 0; i < fighter.belts; i++)
+                console.log(fighter.belts);
+                let len = fighter.belts
+                for (var i = 0; i < len; i++)
                     if (_.isEqual(this.champions[fighter.weightClass][i], fighter))
                         this.champions[fighter.weightClass][i] = topFighter;
             }

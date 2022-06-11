@@ -41,9 +41,9 @@ class App extends React.Component<myProps, myState> {
     render() {
         return (
             <div>
-                <div id="contents">
-                    <BrowserRouter>
-                        <Header />
+                <BrowserRouter>
+                    <Header />
+                    <div id="contents">
                         <Routes>
                             <Route
                                 path="/"
@@ -63,8 +63,8 @@ class App extends React.Component<myProps, myState> {
                                 element={<Home league={this.state.league} ref={this.homeRef as RefObject<Home>} />}
                             />
                         </Routes>
-                    </BrowserRouter>
-                </div>
+                    </div>
+                </BrowserRouter>
                 <p id="dayStr">{this.state.date}</p>
                 <Button id="advBtn" variant="contained" onClick={(e) => this.advance(52)}>
                     Advance
