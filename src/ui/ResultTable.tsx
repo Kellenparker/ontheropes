@@ -36,7 +36,7 @@ const columns: GridColDef[] = [
         sortable: false,
         renderCell: (params) => (
             <Link to={{
-                pathname: `/f/${params.row(params.id, 'id')}`
+                pathname: `/f/${params.row.id}`
             }}>{params.value}</Link>
         )
     },

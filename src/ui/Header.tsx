@@ -38,8 +38,10 @@ function OptionMenu() {
     };
     const handleClose = () => {
         setAnchorEl(null);
-		init(true);
     };
+	const handleReset = () => {
+		init(true);
+	}
 
     return (
         <div className="opt">
@@ -62,9 +64,14 @@ function OptionMenu() {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose} disableRipple>
-                    Reset
-                </MenuItem>
+				<Link to="/" style={{
+					color: 'inherit',
+					textDecoration: 'none'
+				}}>
+					<MenuItem onClick={handleReset} disableRipple>
+						Reset
+					</MenuItem>
+            	</Link>
             </Menu>
         </div>
     );
