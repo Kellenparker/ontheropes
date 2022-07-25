@@ -66,7 +66,7 @@ class App extends React.Component<myProps, myState> {
                     </div>
                 </BrowserRouter>
                 <p id="dayStr">{this.state.date}</p>
-                <Button id="advBtn" variant="contained" onClick={(e) => this.advance(52)}>
+                <Button id="advBtn" variant="contained" onClick={(e) => this.advance(1)}>
                     Advance
                 </Button>
             </div>
